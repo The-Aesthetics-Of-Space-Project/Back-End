@@ -1,0 +1,54 @@
+package com.example.capstone.entity.user;
+
+import com.example.capstone.entity.community.general.article.GeneralArticle;
+import com.example.capstone.entity.community.general.comment.GeneralComment;
+import com.example.capstone.entity.community.general.article.GeneralLike;
+import com.example.capstone.entity.community.general.article.Scrap;
+import com.example.capstone.entity.community.contest.article.ContestArticle;
+import com.example.capstone.entity.community.contest.comment.ContestComment;
+import com.example.capstone.entity.community.contest.article.ContestLike;
+import jakarta.persistence.*;
+
+import java.util.Set;
+
+@Entity
+public class User {
+    @Id
+    @Column(name = "user_id", nullable = false, length = 30)
+    private String userId;
+
+    @Column(nullable = false, length = 30, unique = true)
+    private String nickname;
+
+    @Column(nullable = false)
+    private String password;
+
+    private String profile;
+    private String introduce;
+
+    /**
+     * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
+     * FetchType.LAZY로 지연 로딩 설정, 실제 사용 시점에 ContestBoard 데이터 로드
+     */
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<GeneralArticle> generalArticles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<GeneralComment> generalComments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<GeneralLike> generalLikes;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Scrap> scraps;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<ContestArticle> contestArticles;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<ContestComment> contestComments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<ContestLike> contestLikes;
+}
+
