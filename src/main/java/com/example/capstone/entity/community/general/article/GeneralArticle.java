@@ -1,0 +1,50 @@
+package com.example.capstone.entity.community.general.article;
+
+import com.example.capstone.entity.community.general.comment.GeneralComment;
+import com.example.capstone.entity.user.User;
+import jakarta.persistence.*;
+
+import java.sql.Blob;
+import java.util.Date;
+import java.util.Set;
+
+@Entity
+public class GeneralArticle {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer articleId;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Lob
+    @Column(nullable = false)
+    private Blob thumbnail;
+
+    @Column(nullable = false)
+    private Date date;
+
+    @Column(nullable = false)
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "nickname", referencedColumnName = "nickname")
+    private User user;
+
+    /**
+     * Board와 BoardLike 사이의 일대다 관계. 'Board' 필드를 통해 연결됨.
+     * Fetch.EAGER로 즉시 로드
+     * 좋아요는 게시물 목록 조회, 상세 조회에서 항상 노출
+     */
+    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.EAGER)
+    private Set<GeneralLike> likes;
+
+    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    private Set<GeneralImage> images;
+
+    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    private Set<Scrap> scraps;
+
+    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    private Set<GeneralComment> comments;
+}
