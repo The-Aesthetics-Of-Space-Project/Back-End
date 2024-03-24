@@ -8,10 +8,13 @@ import com.example.capstone.entity.community.contest.article.ContestArticle;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
 import com.example.capstone.entity.community.contest.article.ContestLike;
 import jakarta.persistence.*;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
+@Data
 public class User {
     @Id
     @Column(name = "user_id", nullable = false, length = 30)
