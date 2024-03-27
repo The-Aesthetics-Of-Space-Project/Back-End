@@ -31,13 +31,13 @@ public class ContestPost {
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")
     private User user;
 
-    @OneToMany(mappedBy = "contestArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contestPost", fetch = FetchType.LAZY)
     private Set<ContestImage> contestImages;
 
-    @OneToMany(mappedBy = "contestArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contestPost", fetch = FetchType.LAZY)
     private Set<ContestLike> contestLikes;
 
-    @OneToMany(mappedBy = "contestArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contestPost", fetch = FetchType.LAZY)
     private Set<ContestComment> contestComments;
 }
 

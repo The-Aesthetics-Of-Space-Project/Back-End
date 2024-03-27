@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 public class ScrapId implements Serializable {
     private String user;
-    private Integer generalArticle;
+    private Integer generalPost;
 }

@@ -3,7 +3,6 @@ package com.example.capstone.entity.community.general.article;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
-
 import java.sql.Blob;
 import java.util.Date;
 import java.util.Set;
@@ -36,15 +35,15 @@ public class GeneralPost {
      * Fetch.EAGER로 즉시 로드
      * 좋아요는 게시물 목록 조회, 상세 조회에서 항상 노출
      */
-    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "generalPost", fetch = FetchType.EAGER)
     private Set<GeneralLike> likes;
 
-    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY)
     private Set<GeneralImage> images;
 
-    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY)
     private Set<Scrap> scraps;
 
-    @OneToMany(mappedBy = "generalArticle", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY)
     private Set<GeneralComment> comments;
 }
