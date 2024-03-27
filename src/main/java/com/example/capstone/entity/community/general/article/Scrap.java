@@ -14,6 +14,6 @@ public class Scrap {
     @Id
     @ManyToOne
     @JoinColumn(name = "article_id")
-    private GeneralArticle generalArticle;
+    private GeneralPost generalPost;
 }
 

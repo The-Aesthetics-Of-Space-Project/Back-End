@@ -16,5 +16,5 @@ public class ContestImage {
 
     @ManyToOne
     @JoinColumn(name = "contest_id")
-    private ContestArticle contestArticle;
+    private ContestPost contestPost;
 }

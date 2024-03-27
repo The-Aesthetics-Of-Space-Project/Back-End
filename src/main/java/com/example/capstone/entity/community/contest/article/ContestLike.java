@@ -9,7 +9,7 @@ public class ContestLike {
     @Id
     @ManyToOne
     @JoinColumn(name = "contest_id")
-    private ContestArticle contestArticle;
+    private ContestPost contestPost;
 
     @Id
     @ManyToOne

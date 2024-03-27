@@ -1,6 +1,6 @@
 package com.example.capstone.entity.community.contest.comment;
 
-import com.example.capstone.entity.community.contest.article.ContestArticle;
+import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -26,7 +26,7 @@ public class ContestComment {
 
     @ManyToOne
     @JoinColumn(name = "contest_id")
-    private ContestArticle contestArticle;
+    private ContestPost contestPost;
 
     @ManyToOne
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")

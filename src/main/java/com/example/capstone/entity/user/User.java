@@ -1,10 +1,10 @@
 package com.example.capstone.entity.user;
 
-import com.example.capstone.entity.community.general.article.GeneralArticle;
+import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.community.general.article.GeneralLike;
 import com.example.capstone.entity.community.general.article.Scrap;
-import com.example.capstone.entity.community.contest.article.ContestArticle;
+import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
 import com.example.capstone.entity.community.contest.article.ContestLike;
 import jakarta.persistence.*;
@@ -34,7 +34,7 @@ public class User {
      * FetchType.LAZY로 지연 로딩 설정, 실제 사용 시점에 ContestBoard 데이터 로드
      */
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<GeneralArticle> generalArticles;
+    private Set<GeneralPost> generalPosts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<GeneralComment> generalComments;
@@ -46,7 +46,7 @@ public class User {
     private Set<Scrap> scraps;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<ContestArticle> contestArticles;
+    private Set<ContestPost> contestPosts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<ContestComment> contestComments;

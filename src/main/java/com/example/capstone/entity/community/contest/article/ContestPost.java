@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class ContestArticle {
+public class ContestPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contestId;

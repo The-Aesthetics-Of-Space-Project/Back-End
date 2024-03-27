@@ -1,6 +1,6 @@
 package com.example.capstone.entity.community.general.comment;
 
-import com.example.capstone.entity.community.general.article.GeneralArticle;
+import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class GeneralComment {
 
     @ManyToOne
     @JoinColumn(name = "article_id")
-    private GeneralArticle generalArticle;
+    private GeneralPost generalPost;
 
     @ManyToOne
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")

@@ -16,6 +16,6 @@ public class GeneralImage {
 
     @ManyToOne
     @JoinColumn(name = "article_id")
-    private GeneralArticle generalArticle;
+    private GeneralPost generalPost;
 }
 

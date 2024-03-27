@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class GeneralArticle {
+public class GeneralPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer articleId;
