@@ -15,7 +15,6 @@ public class ContestComment {
     private Date date;
 
     private String content;
-
     private Integer depth;
 
     @Column(name = "`order`")

@@ -16,8 +16,10 @@ public class GeneralComment {
 
     private String content;
     private Integer depth;
+
     @Column(name = "`order`")
     private Integer order;
+
     @Column(name = "`group`")
     private Integer group;
 

@@ -3,11 +3,13 @@ package com.example.capstone.entity.community.general.article;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
+import lombok.Data;
 import java.sql.Blob;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Data
 public class GeneralPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +19,7 @@ public class GeneralPost {
     private String title;
 
     @Lob
-    @Column(nullable = false)
+    @Column(nullable = true) // DB 테스트를 위해 임시로 false->true 변경
     private Blob thumbnail;
 
     @Column(nullable = false)

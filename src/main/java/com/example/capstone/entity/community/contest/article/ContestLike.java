@@ -13,7 +13,7 @@ public class ContestLike {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "nickname", referencedColumnName = "nickname")
+    @JoinColumn(name = "user_id")
     private User user;
 }
 

@@ -1,7 +1,6 @@
 package com.example.capstone.entity.community.general.article;
 
 import jakarta.persistence.*;
-
 import java.sql.Blob;
 
 @Entity

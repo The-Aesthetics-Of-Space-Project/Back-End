@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class GeneralLike {
     @Id
     @ManyToOne
-    @JoinColumn(name = "nickname", referencedColumnName = "nickname")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Id
