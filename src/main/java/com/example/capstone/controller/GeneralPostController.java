@@ -36,12 +36,8 @@ public class GeneralPostController {
      */
     @PostMapping("/api/general/post")
     public ResponseEntity<String> createPost(@RequestBody GeneralPostCreateRequestDto generalPostCreateRequestDto) {
-        Boolean response = generalPostService.createPost(generalPostCreateRequestDto);
+        generalPostService.createPost(generalPostCreateRequestDto);
 
-        if(response == false) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        else {
             return ResponseEntity.status(HttpStatus.OK).body("게시물 등록에 성공했습니다.");
         }
     }
