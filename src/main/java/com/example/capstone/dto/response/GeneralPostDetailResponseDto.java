@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.Blob;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -16,7 +16,7 @@ public class GeneralPostDetailResponseDto {
     private Integer articleId;
     private String title;
     private Blob thumbnail;
-    private Date date;
+    private LocalDateTime date;
     private String content;
     private String nickname;
     private Integer likeCount;
