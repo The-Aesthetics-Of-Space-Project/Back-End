@@ -1,15 +1,13 @@
-package com.example.capstone.dto;
+package com.example.capstone.dto.response;
 
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import java.sql.Blob;
 import java.util.Date;
 
-@Slf4j
 @Data
 @Builder
 @NoArgsConstructor
