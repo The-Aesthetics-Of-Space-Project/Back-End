@@ -18,7 +18,7 @@ public class GeneralPostListResponseDto {
     /**
      * GeneralPost 엔티티 클래스를 GeneralPostListResponseDto로 변환
      */
-    public static GeneralPostListResponseDto generalPostListResponseDto(GeneralPost generalPost) {
+    public static GeneralPostListResponseDto createDto(GeneralPost generalPost) {
         return GeneralPostListResponseDto.builder()
                 .articleId(generalPost.getArticleId())
                 .title(generalPost.getTitle())
