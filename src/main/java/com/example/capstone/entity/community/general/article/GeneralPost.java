@@ -1,5 +1,6 @@
 package com.example.capstone.entity.community.general.article;
 
+import com.example.capstone.dto.request.GeneralPostUpdateRequestDto;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
@@ -54,4 +55,10 @@ public class GeneralPost {
 
     @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY)
     private Set<GeneralComment> comments;
+
+    public void updatePost(GeneralPostUpdateRequestDto generalPostUpdateRequestDto) {
+        this.title = generalPostUpdateRequestDto.getTitle();
+        this.thumbnail = generalPostUpdateRequestDto.getThumbnail();
+        this.content = generalPostUpdateRequestDto.getContent();
+    }
 }
