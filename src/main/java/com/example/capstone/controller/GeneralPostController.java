@@ -38,7 +38,7 @@ public class GeneralPostController {
     public ResponseEntity<String> createPost(@RequestBody GeneralPostCreateRequestDto generalPostCreateRequestDto) {
         generalPostService.createPost(generalPostCreateRequestDto);
 
-            return ResponseEntity.status(HttpStatus.OK).body("게시물 등록에 성공했습니다.");
-        }
+        return ResponseEntity.status(HttpStatus.OK).body("게시물 등록에 성공했습니다.");
     }
 }
+

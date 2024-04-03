@@ -45,10 +45,9 @@ public class GeneralPostService {
     @Transactional
     public void createPost(GeneralPostCreateRequestDto generalPostCreateRequestDto) {
         User user = userRepository.findByNickname(generalPostCreateRequestDto.getNickname())
-                   .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
         generalPostRepository.save(generalPostCreateRequestDto.toEntity(user));
     }
-
-    }
 }
+
