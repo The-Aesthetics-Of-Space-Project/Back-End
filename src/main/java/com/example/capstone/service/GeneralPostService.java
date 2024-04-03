@@ -1,7 +1,7 @@
 package com.example.capstone.service;
 
-import com.example.capstone.dto.GeneralPostDetailResponseDto;
-import com.example.capstone.dto.GeneralPostListResponseDto;
+import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
+import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.repository.GeneralPostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.example.capstone.controller;
 
-import com.example.capstone.dto.GeneralPostDetailResponseDto;
-import com.example.capstone.dto.GeneralPostListResponseDto;
+import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
+import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.service.GeneralPostService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
