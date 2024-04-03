@@ -1,6 +1,7 @@
 package com.example.capstone.service;
 
-import com.example.capstone.dto.GeneralPostListResponseDto;
+import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
+import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.repository.GeneralPostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,17 @@ public class GeneralPostService {
     public List<GeneralPostListResponseDto> getPosts() {
         return generalPostRepository.findAllByOrderByArticleIdDesc()
                 .stream()
-                .map(GeneralPostListResponseDto::generalPostListResponseDto)
+                .map(GeneralPostListResponseDto::createDto)
                 .toList();
+    }
+
+    /**
+     * 일반 게시물 상세 조회
+     */
+    @Transactional
+    public GeneralPostDetailResponseDto getPost(Integer id) {
+        return generalPostRepository.findById(id)
+                .map(GeneralPostDetailResponseDto::createDto)
+                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
     }
 }
