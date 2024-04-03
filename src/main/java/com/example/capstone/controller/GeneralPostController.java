@@ -51,3 +51,4 @@ public class GeneralPostController {
         return ResponseEntity.status(HttpStatus.OK).body("게시물 삭제에 성공했습니다.");
     }
 }
+
