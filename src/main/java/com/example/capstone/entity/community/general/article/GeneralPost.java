@@ -3,13 +3,19 @@ package com.example.capstone.entity.community.general.article;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.sql.Blob;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GeneralPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +29,7 @@ public class GeneralPost {
     private Blob thumbnail;
 
     @Column(nullable = false)
-    private Date date;
+    private LocalDateTime date;
 
     @Column(nullable = false)
     private String content;

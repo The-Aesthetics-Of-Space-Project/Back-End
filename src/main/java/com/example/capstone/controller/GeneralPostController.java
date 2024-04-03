@@ -1,11 +1,12 @@
 package com.example.capstone.controller;
 
+import com.example.capstone.dto.request.GeneralPostCreateRequestDto;
 import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.service.GeneralPostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
@@ -29,4 +30,15 @@ public class GeneralPostController {
     public GeneralPostDetailResponseDto getPost(@PathVariable Integer id) {
         return generalPostService.getPost(id);
     }
+
+    /**
+     * 일반 게시물 등록
+     */
+    @PostMapping("/api/general/post")
+    public ResponseEntity<String> createPost(@RequestBody GeneralPostCreateRequestDto generalPostCreateRequestDto) {
+        generalPostService.createPost(generalPostCreateRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("게시물 등록에 성공했습니다.");
+    }
 }
+
