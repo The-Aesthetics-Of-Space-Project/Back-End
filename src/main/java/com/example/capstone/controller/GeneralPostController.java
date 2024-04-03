@@ -40,5 +40,15 @@ public class GeneralPostController {
 
         return ResponseEntity.status(HttpStatus.OK).body("게시물 등록에 성공했습니다.");
     }
+
+    /**
+     * 일반 게시물 삭제
+     */
+    @DeleteMapping("/api/general/post/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable Integer id) {
+        generalPostService.deletePost(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("게시물 삭제에 성공했습니다.");
+    }
 }
 
