@@ -1,6 +1,7 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.request.GeneralPostCreateRequestDto;
+import com.example.capstone.dto.request.GeneralPostUpdateRequestDto;
 import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.service.GeneralPostService;
@@ -49,6 +50,19 @@ public class GeneralPostController {
         generalPostService.deletePost(id);
 
         return ResponseEntity.status(HttpStatus.OK).body("게시물 삭제에 성공했습니다.");
+    }
+
+    /**
+     * 일반 게시물 수정
+     */
+    @PutMapping("/api/general/post/{id}")
+    public ResponseEntity<String> updatePost(
+            @PathVariable Integer id,
+            @RequestBody GeneralPostUpdateRequestDto generalPostUpdateRequestDto
+    ) {
+        generalPostService.updatePost(id, generalPostUpdateRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("게시물 수정에 성공했습니다.");
     }
 }
 

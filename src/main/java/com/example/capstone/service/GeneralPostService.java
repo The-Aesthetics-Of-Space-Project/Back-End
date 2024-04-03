@@ -1,6 +1,7 @@
 package com.example.capstone.service;
 
 import com.example.capstone.dto.request.GeneralPostCreateRequestDto;
+import com.example.capstone.dto.request.GeneralPostUpdateRequestDto;
 import com.example.capstone.dto.response.GeneralPostDetailResponseDto;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
@@ -9,7 +10,6 @@ import com.example.capstone.repository.GeneralPostRepository;
 import com.example.capstone.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -60,6 +60,16 @@ public class GeneralPostService {
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
 
         generalPostRepository.deleteById(id);
+    }
+
+    /**
+     * 일반 게시물 수정
+     */
+    @Transactional
+    public void updatePost(Integer id, GeneralPostUpdateRequestDto generalPostUpdateRequestDto) {
+        GeneralPost generalPost = generalPostRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
+        generalPost.updatePost(generalPostUpdateRequestDto);
     }
 }
 
