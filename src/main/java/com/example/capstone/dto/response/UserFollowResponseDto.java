@@ -1,4 +1,4 @@
-package com.example.capstone.dto;
+package com.example.capstone.dto.response;
 
 
 import com.example.capstone.entity.follow.Follow;

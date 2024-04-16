@@ -1,15 +1,20 @@
 package com.example.capstone.service;
 
 
-import com.example.capstone.dto.UserFollowResponseDto;
-import com.example.capstone.dto.UserInfoResponseDto;
+import com.example.capstone.dto.response.UserFollowResponseDto;
+import com.example.capstone.dto.response.UserDetailsResponseDto;
 import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.repository.FollowRepository;
 import com.example.capstone.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.beans.FeatureDescriptor;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +37,8 @@ public class UserService {
 //    }
 
 
-    public UserInfoResponseDto getUserInfo(String email){
+    @Transactional
+    public UserDetailsResponseDto getUserDetails(String email){
 
         String nickname = userRepository.findByUserId(email).getNickname();
 
@@ -42,9 +48,10 @@ public class UserService {
         // 몇명 팔로우 했는지
         int followed = followRepository.findByFollower_Nickname(nickname).size();
 
-        return UserInfoResponseDto.createDto(userRepository.findByUserId(email),follower, followed);
+        return UserDetailsResponseDto.createDto(userRepository.findByUserId(email),follower, followed);
     }
 
+    @Transactional
     public List<UserFollowResponseDto> getUserFollowers(String email){
 
         List<UserFollowResponseDto> userFollowers = new ArrayList<>();
@@ -61,6 +68,12 @@ public class UserService {
 
 
         return userFollowers;
+    }
+
+    @Transactional
+    public void setUserDetails(String email, MultipartFile multipartFile)throws IOException {
+        File saveFile = new File(email+".jpg");
+        multipartFile.transferTo(saveFile);
     }
 
 }

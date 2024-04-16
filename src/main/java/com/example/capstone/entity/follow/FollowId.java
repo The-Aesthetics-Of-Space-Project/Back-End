@@ -1,6 +1,6 @@
 package com.example.capstone.entity.follow;
 
-import com.example.capstone.entity.User;
+import com.example.capstone.entity.user.User;
 
 import java.io.Serializable;
 

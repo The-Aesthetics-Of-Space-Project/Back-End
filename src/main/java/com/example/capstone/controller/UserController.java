@@ -1,17 +1,18 @@
 package com.example.capstone.controller;
 
-import com.example.capstone.dto.UserFollowResponseDto;
-import com.example.capstone.dto.UserInfoResponseDto;
-import com.example.capstone.entity.User;
-import com.example.capstone.entity.follow.Follow;
+import com.example.capstone.dto.response.UserFollowResponseDto;
+import com.example.capstone.dto.response.UserDetailsResponseDto;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.List;
 
 @RestController
@@ -34,14 +35,31 @@ public class UserController {
 //    }
 
     @GetMapping("/{email}")
-    public UserInfoResponseDto getUserInfo(@PathVariable String email){
-        return userService.getUserInfo(email);
+    public UserDetailsResponseDto getUserDetails(@PathVariable String email){
+        return userService.getUserDetails(email);
     }
 
     @GetMapping("/{email}/follow")
     public List<UserFollowResponseDto> getUserFollow(@PathVariable String email){
         return userService.getUserFollowers(email);
     }
+
+    // 임시 회원정보수정
+    @PostMapping("/{email}")
+    public ResponseEntity<String> setUserDetails(@PathVariable String email, MultipartFile multipartFile)throws IOException {
+        log.info(multipartFile.getContentType());
+        userService.setUserDetails(email,multipartFile);
+        return ResponseEntity.status(HttpStatus.OK).body("프로필 등록에 성공하였습니다.");
+    }
+
+    @GetMapping(value = "/{email}/image",produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getUserImage(@PathVariable String email)throws IOException{
+        InputStream is = new FileInputStream("C:/profile/image/"+email+".jpg");
+
+        log.info(is.toString());
+        return IOUtils.toByteArray(is);
+    }
+
 
 
 }

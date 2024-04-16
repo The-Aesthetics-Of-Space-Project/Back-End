@@ -1,8 +1,7 @@
-package com.example.capstone.dto;
+package com.example.capstone.dto.response;
 
 
-import com.example.capstone.entity.User;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.example.capstone.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoResponseDto {
+public class UserDetailsResponseDto {
 
     private String userId;
 
@@ -26,8 +25,8 @@ public class UserInfoResponseDto {
     // 유저 팔로잉 ( 사용자가 팔로우하는 사람의 수 )
     private Integer followed;
 
-    public static UserInfoResponseDto createDto(User user, int follower, int followed){
-        return UserInfoResponseDto.builder()
+    public static UserDetailsResponseDto createDto(User user, int follower, int followed){
+        return UserDetailsResponseDto.builder()
                 .userId(user.getUserId())
                 .profile(user.getProfile())
                 .nickname(user.getNickname())

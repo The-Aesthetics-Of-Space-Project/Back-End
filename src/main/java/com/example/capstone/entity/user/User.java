@@ -7,6 +7,7 @@ import com.example.capstone.entity.community.general.article.Scrap;
 import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
 import com.example.capstone.entity.community.contest.article.ContestLike;
+import com.example.capstone.entity.follow.Follow;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,6 @@ public class User {
     private String password;
 
     private String profile;
-    private String introduce;
 
     /**
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
@@ -53,5 +53,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<ContestLike> contestLikes;
+
+
+
+    @OneToMany(mappedBy = "follower",fetch = FetchType.LAZY)
+    private Set<Follow> followers;
+
+    @OneToMany(mappedBy = "nickname",fetch = FetchType.LAZY)
+    private Set<Follow> followedUser;
 }
 
