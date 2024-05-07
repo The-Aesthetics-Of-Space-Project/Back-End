@@ -8,16 +8,20 @@ import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
 import com.example.capstone.entity.community.contest.article.ContestLike;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false, length = 30)
+    @Column(name = "user_id", nullable = false, length = 30, columnDefinition = "VARCHAR_IGNORECASE")
     private String userId;
 
     @Column(nullable = false, length = 30, unique = true)
@@ -26,8 +30,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String profile;
-    private String introduce;
 
     /**
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
