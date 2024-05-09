@@ -5,9 +5,7 @@ import com.example.capstone.service.GeneralCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,5 +19,15 @@ public class GeneralCommentController {
     public ResponseEntity<String> createComment(@RequestBody GeneralCommentCreateRequestDto generalCommentCreateRequestDto) {
         generalCommentService.createComment(generalCommentCreateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("댓글 등록에 성공했습니다.");
+    }
+
+    /**
+     * 일반 게시판 댓글 삭제
+     */
+    @DeleteMapping("/api/general/comment/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable Integer id) {
+        generalCommentService.deleteComment(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body("댓글 삭제에 성공했습니다.");
     }
 }

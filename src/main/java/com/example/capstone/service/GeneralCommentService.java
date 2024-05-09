@@ -30,4 +30,15 @@ public class GeneralCommentService {
 
         generalCommentRepository.save(generalCommentCreateRequestDto.toEntity(user, generalPost));
     }
+
+    /**
+     * 일반 게시판 댓글 삭제
+     */
+    @Transactional
+    public void deleteComment(Integer id) {
+        generalCommentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+
+        generalCommentRepository.deleteById(id);
+    }
 }
