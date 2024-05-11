@@ -2,13 +2,11 @@ package com.example.capstone.dto.response;
 
 
 import com.example.capstone.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
+@Setter // 임시
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailsResponseDto {
@@ -24,6 +22,8 @@ public class UserDetailsResponseDto {
 
     // 유저 팔로잉 ( 사용자가 팔로우하는 사람의 수 )
     private Integer followed;
+
+    private byte[] profileImage;
 
     public static UserDetailsResponseDto createDto(User user, int follower, int followed){
         return UserDetailsResponseDto.builder()
