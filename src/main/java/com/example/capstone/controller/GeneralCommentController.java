@@ -1,6 +1,7 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.request.GeneralCommentCreateRequestDto;
+import com.example.capstone.dto.request.GeneralCommentUpdateRequestDto;
 import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.service.GeneralCommentService;
 import lombok.RequiredArgsConstructor;
@@ -40,4 +41,17 @@ public class GeneralCommentController {
         return generalCommentService.readComment(id);
     }
 
+    /**
+     * 일반 게시판 댓글 수정
+     */
+    @PutMapping("/api/general/comment/{id}")
+    public ResponseEntity<String> updateComment(
+            @PathVariable Integer id,
+            @RequestBody GeneralCommentUpdateRequestDto generalCommentUpdateRequestDto
+    ) {
+        generalCommentService.updateComment(id, generalCommentUpdateRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("댓글 수정에 성공했습니다.");
+    }
 }
+

@@ -1,5 +1,6 @@
 package com.example.capstone.entity.community.general.comment;
 
+import com.example.capstone.dto.request.GeneralCommentUpdateRequestDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
@@ -34,5 +35,9 @@ public class GeneralComment {
     @ManyToOne
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")
     private User user;
+
+    public void updateComment(GeneralCommentUpdateRequestDto generalCommentUpdateRequestDto) {
+        this.content = generalCommentUpdateRequestDto.getContent();
+    }
 }
 
