@@ -1,6 +1,7 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.request.GeneralCommentCreateRequestDto;
+import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.service.GeneralCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,4 +31,13 @@ public class GeneralCommentController {
 
         return ResponseEntity.status(HttpStatus.OK).body("댓글 삭제에 성공했습니다.");
     }
+
+    /**
+     * 일반 게시판 댓글 조회
+     */
+    @GetMapping("/api/general/comment/{id}")
+    public GeneralCommentReadResponseDto readComment(@PathVariable Integer id) {
+        return generalCommentService.readComment(id);
+    }
+
 }

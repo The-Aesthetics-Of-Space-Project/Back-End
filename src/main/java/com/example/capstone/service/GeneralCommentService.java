@@ -1,6 +1,7 @@
 package com.example.capstone.service;
 
 import com.example.capstone.dto.request.GeneralCommentCreateRequestDto;
+import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.GeneralCommentRepository;
@@ -40,5 +41,15 @@ public class GeneralCommentService {
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
         generalCommentRepository.deleteById(id);
+    }
+
+    /**
+     * 일반 게시판 댓글 조회
+     */
+    @Transactional
+    public GeneralCommentReadResponseDto readComment(Integer id) {
+        return generalCommentRepository.findById(id)
+                .map(GeneralCommentReadResponseDto::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
     }
 }
