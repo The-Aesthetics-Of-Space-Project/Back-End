@@ -2,13 +2,11 @@ package com.example.capstone.entity.community.general.article;
 
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"user", "generalPost"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
