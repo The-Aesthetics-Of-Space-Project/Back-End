@@ -27,7 +27,6 @@ public class User {
     private String password;
 
     private String profile;
-    private String introduce;
 
     /**
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
