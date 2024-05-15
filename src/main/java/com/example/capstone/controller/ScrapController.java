@@ -20,6 +20,17 @@ public class ScrapController {
     @PostMapping("/api/general/scrap")
     public ResponseEntity<String> scrapPost(@RequestBody ScrapRequestDto scrapRequestDto) {
         scrapService.scrapPost(scrapRequestDto);
+
         return ResponseEntity.status(HttpStatus.OK).body("게시물 스크랩에 성공했습니다.");
+    }
+
+    /**
+     * 일반 게시판 스크랩 취소
+     */
+    @PostMapping("api/general/unscrap")
+    public ResponseEntity<String> unscrapPost(@RequestBody ScrapRequestDto scrapRequestDto) {
+        scrapService.unscrapPost(scrapRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body("게시물 스크랩 취소에 성공했습니다.");
     }
 }
