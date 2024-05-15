@@ -25,10 +25,10 @@ public class GeneralLikeService {
     @Transactional
     public void likePost(GeneralLikeRequestDto generalLikeRequestDto) {
         GeneralPost generalPost = generalPostRepository.findByArticleId(generalLikeRequestDto.getArticleId())
-                .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("게시물이 존재하지 않습니다."));
 
         User user = userRepository.findByUserId(generalLikeRequestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
 
         generalLikeRepository.save(generalLikeRequestDto.toEntity(user, generalPost));
     }
@@ -39,8 +39,10 @@ public class GeneralLikeService {
     @Transactional
     public void unlikePost(GeneralLikeRequestDto generalLikeRequestDto) {
         // 사용자와 게시물 엔티티 조회
-        User user = userRepository.findById(generalLikeRequestDto.getUserId()).orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
-        GeneralPost generalPost = generalPostRepository.findById(generalLikeRequestDto.getArticleId()).orElseThrow(() -> new RuntimeException("게시물이 존재하지 않습니다."));
+        User user = userRepository.findById(generalLikeRequestDto.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
+        GeneralPost generalPost = generalPostRepository.findById(generalLikeRequestDto.getArticleId())
+                .orElseThrow(() -> new EntityNotFoundException("게시물이 존재하지 않습니다."));
 
         // 복합 키 생성
         GeneralLikeId id = new GeneralLikeId(user.getUserId(), generalPost.getArticleId());
