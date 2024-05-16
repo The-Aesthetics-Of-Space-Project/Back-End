@@ -7,12 +7,10 @@ import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.List;
@@ -52,9 +50,10 @@ public class UserController {
 
 
     // 임시 회원정보수정
-    @PostMapping("/{email}")
-    public ResponseEntity<String> setUserDetails(@PathVariable String email, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
-        userService.setUserDetails(email, userDetailsUpdateRequestDto.getProfile());
+    @PostMapping("/update")
+    public ResponseEntity<String> updateUserDetails(@RequestParam String u_id, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
+        log.info(u_id);
+        userService.updateUserDetails(u_id, userDetailsUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("프로필 등록에 성공하였습니다.");
     }
 
@@ -63,6 +62,20 @@ public class UserController {
         InputStream is = new FileInputStream("C:/profile/image/"+email+".jpg");
         log.info(is.toString());
         return IOUtils.toByteArray(is);
+    }
+
+    @GetMapping("/check_nick")
+    public ResponseEntity<String> checkNickname(@RequestParam String nickname){
+        if(userService.checkNickname(nickname))
+            return ResponseEntity.status(HttpStatus.OK).body("사용 가능한 닉네임");
+        else
+            return ResponseEntity.status(HttpStatus.OK).body("사용중인 닉네임");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUserDetails(@RequestParam String u_id){
+        userService.deleteUserDetails(u_id);
+        return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴 완료");
     }
 
 

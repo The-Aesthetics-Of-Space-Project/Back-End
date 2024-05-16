@@ -1,18 +1,18 @@
 package com.example.capstone.service;
 
 
+import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
 import com.example.capstone.dto.response.UserDetailsResponseDto;
 import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.repository.FollowRepository;
 import com.example.capstone.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.beans.FeatureDescriptor;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
 
     @Autowired
@@ -28,13 +29,7 @@ public class UserService {
     @Autowired
     private FollowRepository followRepository;
 
-    /*
-    유저 리스트를 불러올 일이 없어서 폐기
-     */
-//    public List<UserInfoResponseDto> getUsersInfo(){
-////        log.info(userRepository.findAll().toString());
-//        return userRepository.findAll();
-//    }
+
 
 
     @Transactional
@@ -43,14 +38,22 @@ public class UserService {
         String nickname = userRepository.findByUserId(email).getNickname();
 
         // 팔로워 몇명인지
-        int follower = followRepository.findByNickname_Nickname(nickname).size();
+        int follower = followRepository.findByUserId_UserId(email).size();
 
         // 몇명 팔로우 했는지
-        int followed = followRepository.findByFollower_Nickname(nickname).size();
+        int followed = followRepository.findByFollower_UserId(email).size();
 
-        return UserDetailsResponseDto.createDto(userRepository.findByUserId(email),follower, followed);
+        return UserDetailsResponseDto.createDto(
+                userRepository.findByUserId(email),
+                follower,
+                followed,
+                0); // 임시 좋아요
     }
 
+
+    /**
+     * 팔로워 목록 조회
+     */
     @Transactional
     public List<UserFollowResponseDto> getUserFollowers(String email){
 
@@ -58,11 +61,7 @@ public class UserService {
 
         String nickname = userRepository.findByUserId(email).getNickname();
 
-        /*
-        유저의 팔로워 정보를 받아온 다음      ( List<Follow> 타입 )
-        향상for문을 활용해 각 follow 객체들을
-         */
-        for(Follow follow : followRepository.findByNickname_Nickname(nickname)){
+        for(Follow follow : followRepository.findByUserId_UserId(email)){
             userFollowers.add(UserFollowResponseDto.createDto(follow));
         }
 
@@ -70,10 +69,45 @@ public class UserService {
         return userFollowers;
     }
 
+    /**
+     * 회원 정보 수정
+     */
     @Transactional
-    public void setUserDetails(String email, MultipartFile multipartFile)throws IOException {
+    public void updateUserDetails(String email, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
+
+        //
+        userRepository.findByUserId(email)
+                .updateDetails(userDetailsUpdateRequestDto);
+
+        // 파일 명 : 이메일 + .jpg
         File saveFile = new File(email+".jpg");
-        multipartFile.transferTo(saveFile);
+
+        // 이미지 저장
+        userDetailsUpdateRequestDto
+                .getProfile()
+                .transferTo(saveFile);
+
     }
+
+
+    /**
+     * 닉네임 중복 확인
+     */
+
+    @Transactional
+    public boolean checkNickname(String nickname){
+        return userRepository.findByNickname(nickname).isEmpty();
+    }
+
+
+
+
+    // 삭제가 안됨
+    @Transactional
+    public void deleteUserDetails(String email){
+        userRepository.deleteById(email);
+
+    }
+
 
 }

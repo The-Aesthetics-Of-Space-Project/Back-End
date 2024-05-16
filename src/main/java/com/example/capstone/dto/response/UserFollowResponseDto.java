@@ -19,7 +19,7 @@ public class UserFollowResponseDto {
 
     public static UserFollowResponseDto createDto(Follow follow){
         return UserFollowResponseDto.builder()
-                .userId(follow.getNickname().getNickname())
+                .userId(follow.getUserId().getNickname())
                 .follower(follow.getFollower().getNickname())
                 .build();
     }

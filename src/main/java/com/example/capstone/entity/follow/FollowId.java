@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class FollowId implements Serializable {
 
 
-    private User nickname;
+    private User userId;
 //    private User user_id;
 
 

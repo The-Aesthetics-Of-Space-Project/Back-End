@@ -2,12 +2,8 @@ package com.example.capstone.entity.follow;
 
 
 import com.example.capstone.entity.user.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
@@ -19,14 +15,14 @@ public class Follow {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "nickname", referencedColumnName = "nickname")
-    private User nickname;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "user_id")
+    private User userId;
 //    @JoinColumn(name = "user_id")
 //    private User userId;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "follow", referencedColumnName = "nickname")
+    @JoinColumn(name = "FOLLOW", referencedColumnName = "user_id")
     private User follower;
 
 }

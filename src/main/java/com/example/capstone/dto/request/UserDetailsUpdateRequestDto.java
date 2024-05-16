@@ -1,7 +1,6 @@
 package com.example.capstone.dto.request;
 
 
-import com.example.capstone.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetailsUpdateRequestDto {
+
+    private String userId;
+
     private String nickname;
 
-
-    private String password;
-
-
     private MultipartFile profile;
+
 
 }

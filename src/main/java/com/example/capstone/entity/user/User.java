@@ -1,5 +1,6 @@
 package com.example.capstone.entity.user;
 
+import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.community.general.article.GeneralLike;
@@ -60,10 +61,24 @@ public class User {
 
 
 
-    @OneToMany(mappedBy = "follower",fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "follower",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
     private Set<Follow> followers;
 
-    @OneToMany(mappedBy = "nickname",fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "userId",
+            cascade = CascadeType.REMOVE,
+            fetch = FetchType.LAZY
+    )
     private Set<Follow> followedUser;
+
+
+
+    public void updateDetails(UserDetailsUpdateRequestDto userDetailsUpdateRequestDto){
+        this.nickname = userDetailsUpdateRequestDto.getNickname();
+    }
 }
 
