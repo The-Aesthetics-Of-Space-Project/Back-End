@@ -35,7 +35,10 @@ public class UserService {
     @Transactional
     public UserDetailsResponseDto getUserDetails(String email){
 
-        String nickname = userRepository.findByUserId(email).getNickname();
+        String nickname = userRepository
+                .findByUserId(email)
+                .orElseThrow()
+                .getNickname();
 
         // 팔로워 몇명인지
         int follower = followRepository.findByUserId_UserId(email).size();
@@ -44,7 +47,7 @@ public class UserService {
         int followed = followRepository.findByFollower_UserId(email).size();
 
         return UserDetailsResponseDto.createDto(
-                userRepository.findByUserId(email),
+                userRepository.findByUserId(email).orElseThrow(),
                 follower,
                 followed,
                 0); // 임시 좋아요
@@ -58,8 +61,6 @@ public class UserService {
     public List<UserFollowResponseDto> getUserFollowers(String email){
 
         List<UserFollowResponseDto> userFollowers = new ArrayList<>();
-
-        String nickname = userRepository.findByUserId(email).getNickname();
 
         for(Follow follow : followRepository.findByUserId_UserId(email)){
             userFollowers.add(UserFollowResponseDto.createDto(follow));
@@ -77,6 +78,7 @@ public class UserService {
 
         //
         userRepository.findByUserId(email)
+                .orElseThrow()
                 .updateDetails(userDetailsUpdateRequestDto);
 
         // 파일 명 : 이메일 + .jpg
@@ -105,8 +107,12 @@ public class UserService {
     // 삭제가 안됨
     @Transactional
     public void deleteUserDetails(String email){
-        userRepository.deleteById(email);
 
+        for(Follow follow : followRepository.findByUserId_UserId(email)){
+            followRepository.delete(follow);
+        }
+
+        userRepository.deleteById(email);
     }
 
 

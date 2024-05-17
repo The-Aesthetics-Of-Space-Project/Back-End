@@ -1,7 +1,10 @@
 package com.example.capstone.service;
 
 import com.example.capstone.dto.request.GeneralCommentCreateRequestDto;
+import com.example.capstone.dto.request.GeneralCommentUpdateRequestDto;
+import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
+import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.GeneralCommentRepository;
 import com.example.capstone.repository.GeneralPostRepository;
@@ -29,5 +32,36 @@ public class GeneralCommentService {
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
         generalCommentRepository.save(generalCommentCreateRequestDto.toEntity(user, generalPost));
+    }
+
+    /**
+     * 일반 게시판 댓글 삭제
+     */
+    @Transactional
+    public void deleteComment(Integer id) {
+        generalCommentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+
+        generalCommentRepository.deleteById(id);
+    }
+
+    /**
+     * 일반 게시판 댓글 조회
+     */
+    @Transactional
+    public GeneralCommentReadResponseDto readComment(Integer id) {
+        return generalCommentRepository.findById(id)
+                .map(GeneralCommentReadResponseDto::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+    }
+
+    /**
+     * 일반 게시판 댓글 수정
+     */
+    @Transactional
+    public void updateComment(Integer id, GeneralCommentUpdateRequestDto generalCommentUpdateRequestDto) {
+        GeneralComment generalComment = generalCommentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
+        generalComment.updateComment(generalCommentUpdateRequestDto);
     }
 }

@@ -4,16 +4,14 @@ import com.example.capstone.dto.request.GeneralPostUpdateRequestDto;
 import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(exclude = {"comments", "likes"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

@@ -38,7 +38,11 @@ public class User {
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
      * FetchType.LAZY로 지연 로딩 설정, 실제 사용 시점에 ContestBoard 데이터 로드
      */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
     private Set<GeneralPost> generalPosts;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -63,15 +67,15 @@ public class User {
 
     @OneToMany(
             mappedBy = "follower",
-            cascade = CascadeType.REMOVE,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private Set<Follow> followers;
 
     @OneToMany(
             mappedBy = "userId",
-            cascade = CascadeType.REMOVE,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private Set<Follow> followedUser;
 
