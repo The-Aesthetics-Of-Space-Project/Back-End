@@ -2,6 +2,7 @@ package com.example.capstone.dto.request;
 
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.community.general.article.Scrap;
+import com.example.capstone.entity.community.general.article.ScrapId;
 import com.example.capstone.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class ScrapRequestDto {
      */
     public Scrap toEntity(User user, GeneralPost generalPost) {
         return Scrap.builder()
+                .id(new ScrapId(user.getUserId(), generalPost.getArticleId()))
                 .user(user)
                 .generalPost(generalPost)
                 .build();
