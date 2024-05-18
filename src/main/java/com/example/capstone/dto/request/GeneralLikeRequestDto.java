@@ -1,6 +1,7 @@
 package com.example.capstone.dto.request;
 
 import com.example.capstone.entity.community.general.article.GeneralLike;
+import com.example.capstone.entity.community.general.article.GeneralLikeId;
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class GeneralLikeRequestDto {
      */
     public GeneralLike toEntity(User user, GeneralPost generalPost) {
         return GeneralLike.builder()
+                .id(new GeneralLikeId(user.getUserId(), generalPost.getArticleId()))
                 .user(user)
                 .generalPost(generalPost)
                 .build();

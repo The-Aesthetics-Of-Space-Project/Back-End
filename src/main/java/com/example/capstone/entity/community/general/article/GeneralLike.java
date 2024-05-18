@@ -10,15 +10,17 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(GeneralLikeId.class)
 public class GeneralLike {
-    @Id
+    @EmbeddedId
+    private GeneralLikeId id;
+
     @ManyToOne
+    @MapsId("user")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Id
     @ManyToOne
+    @MapsId("generalPost")
     @JoinColumn(name = "article_id")
     private GeneralPost generalPost;
 }
