@@ -10,15 +10,17 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(ScrapId.class)
 public class Scrap {
-    @Id
+    @EmbeddedId
+    private ScrapId id;
+
     @ManyToOne
+    @MapsId("user")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Id
     @ManyToOne
+    @MapsId("generalPost")
     @JoinColumn(name = "article_id")
     private GeneralPost generalPost;
 }
