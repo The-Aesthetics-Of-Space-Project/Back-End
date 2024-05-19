@@ -2,6 +2,7 @@ package com.example.capstone.controller;
 
 import com.example.capstone.service.GeneralImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class GeneralImageController {
     private final GeneralImageService generalImageService;
 
@@ -19,15 +21,12 @@ public class GeneralImageController {
      * 이미지 -> 접근 가능한 url
      */
     @PostMapping("/api/general/post/image")
-    public ResponseEntity<String> uploadImage(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("articleId") Integer articleId
-    ) {
-
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            String filePath = generalImageService.uploadImage(file, articleId);
+            String filePath = generalImageService.uploadImage(file);
             return ResponseEntity.ok(filePath);
         } catch (IOException e) {
+            log.info(e.toString());
             return ResponseEntity.status(500).body("이미지 업로드 실패: " + e.getMessage());
         }
     }
