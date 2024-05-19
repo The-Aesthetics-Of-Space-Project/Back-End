@@ -25,7 +25,7 @@ public class GeneralPost {
 
     @Lob
     @Column(nullable = true) // DB 테스트를 위해 임시로 false->true 변경
-    private Blob thumbnail;
+    private String thumbnail;
 
     @Column(nullable = false)
     private LocalDateTime date;
