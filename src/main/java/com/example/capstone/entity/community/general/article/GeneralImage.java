@@ -18,9 +18,5 @@ public class GeneralImage {
 
     @Column(nullable = false)
     private String imagePath;
-
-    @ManyToOne
-    @JoinColumn(name = "article_id")
-    private GeneralPost generalPost;
 }
 
