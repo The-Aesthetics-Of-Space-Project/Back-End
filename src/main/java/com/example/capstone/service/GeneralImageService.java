@@ -6,6 +6,8 @@ import com.example.capstone.repository.GeneralImageRepository;
 import com.example.capstone.repository.GeneralPostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -50,4 +52,16 @@ public class GeneralImageService {
 
         return "/api/general/post/image/" + savedImage.getImageId();
     }
+
+    /**
+     * 이미지 조회
+     */
+    @Transactional public Resource getImage(Integer imageId) throws Exception {
+        GeneralImage generalImage = generalImageRepository.findById(imageId)
+                .orElseThrow(() -> new IllegalArgumentException("이미지가 존재하지 않습니다."));
+
+        Path imagePath = Paths.get(generalImage.getImagePath());
+        return new UrlResource(imagePath.toUri());
+    }
 }
+
