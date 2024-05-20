@@ -11,7 +11,7 @@ import java.sql.Blob;
 public class GeneralPostListResponseDto {
     private Integer articleId;
     private String title;
-    private Blob thumbnail;
+    private String thumbnail;
     private String nickname;
     private Integer likeCount;
 
