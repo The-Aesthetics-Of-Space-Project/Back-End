@@ -13,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +51,38 @@ public class MainController {
                 responseData.put("message", "success");
                 // 필요한 경우 사용자 정보 등 추가 데이터 포함
                 responseData.put("userId", userLoginDto.getUserId());
+                responseData.put("nickname", userRepository.findNickname(id));
                 session.setAttribute("ID",userLoginDto.getUserId());
                 return ResponseEntity.ok().body(responseData);
             }
         }
     }
 
+    @GetMapping("/checkUserId/{userId}")
+    public ResponseEntity<?> checkUserID(@PathVariable(value="userId") String userId){
+        String id = userRepository.findID(userId);
+        log.info(id);
+        if(id==null){
+            log.info("id : " + id);
+            return ResponseEntity.ok().body(id);
+        }else{
+            log.info("id : " + id);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("존재하는 아이디입니다.");
+        }
+    }
+
+    @GetMapping("/checknickname/{nickname}")
+    public ResponseEntity<?> checkNickname(@PathVariable(value="nickname") String nickname){
+        Boolean isin = userRepository.existsByNickname(nickname);
+        log.info(String.valueOf(isin));
+        if(!isin){
+            log.info("nickname : " + isin);
+            return ResponseEntity.ok().body(isin);
+        }else{
+            log.info("nickname : " + isin);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("존재하는 닉네임입니다.");
+        }
+    }
 
     // 유효성 검사 로직 Errors
     @PostMapping("/signup")
@@ -69,6 +94,8 @@ public class MainController {
             Map<String, String> validatorResult = userService.validateHandling(errors);
             response.put("success", false);
             response.put("errors", validatorResult);
+            // ResponseEntity 객체를 문자열로 변환하여 로깅
+            log.info("ResponseEntity: " + ResponseEntity.badRequest().body(response).toString());
             return ResponseEntity.badRequest().body(response);
         } else {
             // 유효성 검사 성공 시
@@ -78,5 +105,4 @@ public class MainController {
             return ResponseEntity.ok(response);
         }
     }
-
 }

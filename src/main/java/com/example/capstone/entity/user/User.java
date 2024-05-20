@@ -21,7 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false, length = 30, columnDefinition = "VARCHAR_IGNORECASE")
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
     @Column(nullable = false, length = 30, unique = true)
@@ -29,7 +29,6 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
 
     /**
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
