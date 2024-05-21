@@ -103,6 +103,7 @@ public class User {
 
     public void updateDetails(UserDetailsUpdateRequestDto userDetailsUpdateRequestDto){
         this.nickname = userDetailsUpdateRequestDto.getNickname();
+        this.profile = "http://119.198.33.129:8080/users/image?userId="+userDetailsUpdateRequestDto.getUserId();
     }
 
     public void updatePassword(String password){

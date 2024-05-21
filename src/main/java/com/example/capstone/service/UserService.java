@@ -3,19 +3,18 @@ package com.example.capstone.service;
 
 import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
 import com.example.capstone.dto.response.*;
-import com.example.capstone.entity.follow.Follow;
-import com.example.capstone.repository.FollowRepository;
-import com.example.capstone.repository.GeneralLikeRepository;
-import com.example.capstone.repository.GeneralPostRepository;
-import com.example.capstone.repository.UserRepository;
+import com.example.capstone.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -24,10 +23,9 @@ import com.example.capstone.dto.UserSignupDto;
 import com.example.capstone.entity.user.User;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.multipart.MultipartFile;
 
-
-
-
+import javax.imageio.ImageIO;
 
 
 @Service
@@ -46,6 +44,9 @@ public class UserService {
 
     @Autowired
     private GeneralLikeRepository generalLikeRepository;
+
+    @Autowired
+    private ScrapRepository scrapRepository;
 
 
     /**
@@ -67,50 +68,28 @@ public class UserService {
 
         Long likes = generalLikeRepository.countByUser_UserId(userId);
 
+        Long scraps = scrapRepository.countByUser_UserId(userId);
+
         return UserDetailsResponseDto.createDto(
                 userRepository.findByUserId(userId).orElseThrow(),
                 follower,
                 followed,
-                likes);
+                likes,
+                scraps);
     }
 
 
-    /**
-     * 팔로워 목록 조회
-     */
-    @Transactional
-    public UserFollowerResponseDto getUserFollowers(String userId) {
 
-
-        List<String> followerList = new ArrayList<>();
-
-        for (Follow follower : followRepository.findByUserId_UserId(userId)) {
-            followerList.add(follower.getFollower().getNickname());
-        }
-
-        return new UserFollowerResponseDto(followerList);
-    }
-
-
-    /**
-     * 팔로워 목록 조회
-     */
-    @Transactional
-    public UserFollowerResponseDto getUserFollowings(String userId) {
-
-
-        List<String> followingList = new ArrayList<>();
-
-        for (Follow follower : followRepository.findByFollower_UserId(userId)) {
-            followingList.add(follower.getFollower().getNickname());
-        }
-
-        return new UserFollowerResponseDto(followingList);
-    }
 
     /**
      * 회원 정보 수정
      */
+
+    public UserUpDetailsResponseDto userDetail(String userId){
+
+        return UserUpDetailsResponseDto
+                .createDto(userRepository.findByUserId(userId).get());
+    }
     @Transactional
     public void updateUserDetails(String email, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto) throws IOException {
 
@@ -129,17 +108,7 @@ public class UserService {
 
     }
 
-    /**
-     * 회원 게시물 조회
-     */
 
-    @Transactional
-    public List<GeneralPostListResponseDto> getUserPosts(String userId) {
-        return generalPostRepository.findByUser_UserId(userId)
-                .stream()
-                .map(GeneralPostListResponseDto::createDto)
-                .toList();
-    }
 
 
     /**
@@ -180,16 +149,6 @@ public class UserService {
     }
 
 
-    /**
-     * 회원 좋아요 목록 조회
-     */
-    @Transactional
-    public List<UserPostLikesResponseDto> getUserLikes(String userId) {
-        return generalLikeRepository.findByUser_UserId(userId)
-                .stream()
-                .map(UserPostLikesResponseDto::createDto)
-                .toList();
-    }
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -210,7 +169,7 @@ public class UserService {
     }
 
     // 회원 계정 생성(중복되는 id 찾기)
-    public User create(UserSignupDto userDto) {
+    public User create(UserSignupDto userDto) throws IOException{
         String id = userDto.getUserId();
         log.info("DTO의 아이디" + id);
 
@@ -220,6 +179,7 @@ public class UserService {
         target.ifPresent(m -> {
             throw new IllegalStateException("이미 존재하는 회원입니다!");
         });
+
 
         //1. Dto -> Entity
         User user = userDto.toEntity();

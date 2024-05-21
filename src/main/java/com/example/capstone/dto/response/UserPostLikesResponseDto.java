@@ -13,11 +13,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPostLikesResponseDto {
-    private Integer articleId;
+    private String title;
+    private String userId;
+    private String thumbnail;
+    private String profile;
 
     public static UserPostLikesResponseDto createDto(GeneralLike like){
         return builder()
-                .articleId(like.getGeneralPost().getArticleId())
+                .title(like.getGeneralPost().getTitle())
+                .thumbnail(like.getGeneralPost().getThumbnail())
+                .userId(like.getGeneralPost().getUser().getUserId())
+                .profile(like.getGeneralPost().getUser().getProfile())
                 .build();
     }
 
