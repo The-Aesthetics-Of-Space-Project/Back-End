@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class GeneralPostDetailResponseDto {
     private Integer articleId;
     private String title;
-    private Blob thumbnail;
+    private String thumbnail;
     private LocalDateTime date;
     private String content;
     private String nickname;

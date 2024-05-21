@@ -15,7 +15,7 @@ import java.sql.Blob;
 @AllArgsConstructor
 public class GeneralPostCreateRequestDto {
     private String title;
-    private Blob thumbnail;
+    private String thumbnail;
     private String content;
     private String nickname;
 

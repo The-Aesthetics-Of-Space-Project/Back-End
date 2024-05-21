@@ -3,6 +3,7 @@ package com.example.capstone.service;
 
 import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
 import com.example.capstone.dto.response.*;
+import com.example.capstone.entity.community.general.article.GeneralLike;
 import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.repository.FollowRepository;
 import com.example.capstone.repository.GeneralLikeRepository;
@@ -130,16 +131,16 @@ public class UserService {
         userRepository.deleteById(email);
     }
 
+
     /**
      * 회원 좋아요 목록 조회
      */
-
-//    @Transactional
-//    public List<UserPostLikesResponseDto> getUserLikes(String userId){
-//        return generalLikeRepository.findByUser_Id(userId)
-//                .stream()
-//                .map(UserPostLikesResponseDto::)
-//    }
-
+    @Transactional
+    public List<UserPostLikesResponseDto> getUserLikes(String userId){
+        return generalLikeRepository.findByUser_UserId(userId)
+                .stream()
+                .map(UserPostLikesResponseDto::createDto)
+                .toList();
+    }
 
 }

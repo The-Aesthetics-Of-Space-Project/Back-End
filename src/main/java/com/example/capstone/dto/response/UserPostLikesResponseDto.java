@@ -6,16 +6,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPostLikesResponseDto {
-    private String thumbnail;
     private Integer articleId;
 
-//    public UserPostLikesResponseDto createDto(GeneralLike like){
-//        return UserPostLikesResponseDto.builder()
-//                .articleId(like.getId())
-//    }
+    public static UserPostLikesResponseDto createDto(GeneralLike like){
+        return builder()
+                .articleId(like.getGeneralPost().getArticleId())
+                .build();
+    }
+
+
 }

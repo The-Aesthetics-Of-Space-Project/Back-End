@@ -2,6 +2,7 @@ package com.example.capstone.controller;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowerResponseDto;
+import com.example.capstone.dto.response.UserPostLikesResponseDto;
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.service.GeneralPostService;
 import com.example.capstone.service.UserService;
@@ -40,8 +41,8 @@ public class MyPageController {
      * 좋아요 목록 조회
      */
     @GetMapping("/likes")
-    public void getUsersLikes(@RequestParam String userId){
-
+    public List<UserPostLikesResponseDto> getUsersLikes(@RequestParam String userId){
+        return userService.getUserLikes(userId);
     }
 
     /**

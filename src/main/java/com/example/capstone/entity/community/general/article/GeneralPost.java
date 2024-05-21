@@ -25,7 +25,7 @@ public class GeneralPost {
 
     @Lob
     @Column(nullable = true) // DB 테스트를 위해 임시로 false->true 변경
-    private Blob thumbnail;
+    private String thumbnail;
 
     @Column(nullable = false)
     private LocalDateTime date;
@@ -42,13 +42,10 @@ public class GeneralPost {
      * Fetch.EAGER로 즉시 로드
      * 좋아요는 게시물 목록 조회, 상세 조회에서 항상 노출
      * orphanRemoval = true -> 부모 엔티티 삭제 시 자식 엔티티 자동으로 삭제
-     * 게시글 삭제 -> 좋아요, 이미지, 스크랩, 댓글 삭제
+     * 게시글 삭제 -> 좋아요, 스크랩, 댓글 삭제
      */
     @OneToMany(mappedBy = "generalPost", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<GeneralLike> likes;
-
-    @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<GeneralImage> images;
 
     @OneToMany(mappedBy = "generalPost", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Scrap> scraps;

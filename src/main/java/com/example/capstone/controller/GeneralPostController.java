@@ -64,5 +64,12 @@ public class GeneralPostController {
 
         return ResponseEntity.status(HttpStatus.OK).body("게시물 수정에 성공했습니다.");
     }
-}
 
+    /**
+     * 좋아요 수가 가장 많은 상위 3개의 게시물 목록 조회
+     */
+    @GetMapping("/api/general/posts/popular")
+    public List<GeneralPostListResponseDto> getPopularPosts() {
+        return generalPostService.getPopularPosts();
+    }
+}

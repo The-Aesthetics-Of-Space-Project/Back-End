@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface GeneralLikeRepository extends JpaRepository<GeneralLike, GeneralLikeId> {
 
-    public List<GeneralLike> findByUser_Id(String userId);
+
+    List<GeneralLike> findByUser_UserId(String userId);
 
 }

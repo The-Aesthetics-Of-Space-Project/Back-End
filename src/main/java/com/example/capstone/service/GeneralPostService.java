@@ -10,6 +10,8 @@ import com.example.capstone.repository.GeneralPostRepository;
 import com.example.capstone.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -70,6 +72,18 @@ public class GeneralPostService {
         GeneralPost generalPost = generalPostRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
         generalPost.updatePost(generalPostUpdateRequestDto);
+    }
+
+    /**
+     * 좋아요 수가 가장 많은 상위 3개의 게시물 목록 조회
+     */
+    @Transactional
+    public List<GeneralPostListResponseDto> getPopularPosts() {
+        Pageable pageable = PageRequest.of(0 , 3);
+        List<GeneralPost> posts = generalPostRepository.findTop3ByLikes(pageable);
+        return posts.stream()
+                .map(GeneralPostListResponseDto::createDto)
+                .toList();
     }
 }
 
