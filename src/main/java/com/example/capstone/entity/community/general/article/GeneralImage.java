@@ -1,20 +1,22 @@
 package com.example.capstone.entity.community.general.article;
 
 import jakarta.persistence.*;
-import java.sql.Blob;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GeneralImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer imageId;
 
-    @Lob
     @Column(nullable = false)
-    private Blob text;
-
-    @ManyToOne
-    @JoinColumn(name = "article_id")
-    private GeneralPost generalPost;
+    private String imagePath;
 }
 

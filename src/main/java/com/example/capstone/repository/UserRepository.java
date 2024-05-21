@@ -13,6 +13,11 @@ public interface UserRepository extends JpaRepository<User, String> {
      */
      Optional<User> findByNickname(String nickname);
 
+    /**
+     * userId로 user 찾는 메서드
+     */
+    Optional<User> findByUserId(String userId);
+
     boolean existsByNickname(String nickname);
 
     @Query("SELECT password FROM User WHERE userId = :userId")
@@ -23,4 +28,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("SELECT nickname FROM User WHERE userId = :userId" )
     String findNickname(@Param("userId") String userId);
+
+
 }

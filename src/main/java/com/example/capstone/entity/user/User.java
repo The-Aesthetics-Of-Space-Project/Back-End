@@ -30,6 +30,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    private String profile;
+
     /**
      * User와 ContestBoard 사이의 일대다 관계. 'user' 필드를 통해 열결됨.
      * FetchType.LAZY로 지연 로딩 설정, 실제 사용 시점에 ContestBoard 데이터 로드

@@ -29,52 +29,65 @@ public class ChatRoomController {
     ChatRoomRepository chatRoomRepository;
     // 채팅방 생성 로직
     @GetMapping("/chatroom/{id}")
-    public String Chatroom(HttpSession session, Model model,@PathVariable String id){
+    public List<String> Chatroom(HttpSession session, Model model,@PathVariable String id){
         String sessionId = (String) session.getAttribute("sessionId");
-        // 대화 중인 상대인지 체크
-        String a = chatRoomRepository.find(sessionId,id);
-        String b = chatRoomRepository.find(id, sessionId);
 
-        // a또는b 가 이반환되는 값이 있다면 한번이라도 대화한적 있음
-        if(a!=null || b!=null){
-            // roomid 찾기
-            String c = chatRoomRepository.findroomid(sessionId,id);
-            // roomid 찾는 반대 경우
-            if(c==null){
-                c = chatRoomRepository.findroomid(id,sessionId);
-            }
-            // roomid chatroom이라는 이름으로 전달
-            model.addAttribute("chatroom",c);
-            log.info("roomid:" + c);
-
-        }else{ // 한번이라도 대화한적 없다면
-            // 새로운 roomid 생성
-            ChatRoomDto chatroomdto = new ChatRoomDto();
-            chatroomdto.setPerson1(sessionId);
-            chatroomdto.setPerson2(id);
-            // roomid 전달
-            model.addAttribute("chatroom",chatroomdto.getRoomid());
-            log.info("roomid:" + chatroomdto.getRoomid());
-            // entity 변환 후 저장
-            Chatroom chatroom = chatroomdto.toEntity();
-            chatRoomRepository.save(chatroom);
-        }
+        // 대화 중인 상대인지 체크하고 roomid 가져오기
+        String roomId = getRoomId(sessionId, id, model);
 
         // 채팅 상대 내역 가져와서 전달
+        List<String> combined = getChatPartners(sessionId, id);
+        combined.add(id);
+
+        // 채팅 상대가 없는 경우 처리
+        if (!combined.isEmpty()) {
+            model.addAttribute("list", combined);
+        }
+
+        model.addAttribute("sessionId", sessionId);
+        return combined;
+    }
+
+    private String getRoomId(String sessionId, String id, Model model) {
+        String roomId = chatRoomRepository.findroomid(sessionId, id);
+        if (roomId == null) {
+            roomId = chatRoomRepository.findroomid(id, sessionId);
+        }
+
+        if (roomId == null) {
+            // 대화한 적이 없는 경우 새로운 roomid 생성
+            roomId = createNewRoom(sessionId, id, model);
+        } else {
+            // 이미 대화한 적 있는 경우 해당 roomid를 모델에 추가
+            model.addAttribute("chatroom", roomId);
+            log.info("roomid:" + roomId);
+        }
+
+        return roomId;
+    }
+
+    private String createNewRoom(String sessionId, String id, Model model) {
+        ChatRoomDto chatroomdto = new ChatRoomDto();
+        chatroomdto.setPerson1(sessionId);
+        chatroomdto.setPerson2(id);
+        String roomId = chatroomdto.getRoomid();
+        model.addAttribute("chatroom", roomId);
+        log.info("roomid:" + roomId);
+
+        // entity 변환 후 저장
+        Chatroom chatroom = chatroomdto.toEntity();
+        chatRoomRepository.save(chatroom);
+
+        return roomId;
+    }
+
+    private List<String> getChatPartners(String sessionId, String id) {
         List<String> test = chatRoomRepository.findPerson(sessionId);
         List<String> test2 = chatRoomRepository.findPerson2(sessionId);
 
         List<String> combined = Stream.concat(test.stream(), test2.stream())
                 .collect(Collectors.toList());
-        combined.add(id);
-
-        if (test.isEmpty()) {
-        } else {
-            model.addAttribute("list",combined);
-        }
-
-        model.addAttribute("sessionId", sessionId);
-        return "chat/Message";
+        return combined;
     }
 
 

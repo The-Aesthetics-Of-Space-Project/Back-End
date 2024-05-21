@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.sql.Blob;
 
 @Data
 @Builder
@@ -12,6 +11,6 @@ import java.sql.Blob;
 @AllArgsConstructor
 public class GeneralPostUpdateRequestDto {
     private String title;
-    private Blob thumbnail;
+    private String thumbnail;
     private String content;
 }
