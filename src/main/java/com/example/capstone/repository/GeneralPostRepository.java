@@ -20,6 +20,13 @@ public interface GeneralPostRepository extends JpaRepository<GeneralPost, Intege
      */
     Optional<GeneralPost> findByArticleId(Integer articleId);
 
+
+    /**
+     * userId로 사용자의 게시물 전체 목록 조회
+     */
+
+    List<GeneralPost> findByUser_UserId(String userId);
+
     /**
      * 좋아요 수가 가장 많은 상위 3개의 게시물 목록 조회
      */
