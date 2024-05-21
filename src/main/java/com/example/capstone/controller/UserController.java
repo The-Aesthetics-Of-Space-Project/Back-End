@@ -36,16 +36,10 @@ public class UserController {
 
     @GetMapping("/{email}")
     public UserDetailsResponseDto getUserDetails(@PathVariable String email) throws IOException{
-        InputStream is = new FileInputStream("C:/profile/image/"+email+".jpg");
         UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(email);
-        userDetailsResponseDto.setProfileImage(IOUtils.toByteArray(is));
         return userDetailsResponseDto;
     }
 
-    @GetMapping("/{email}/follow")
-    public List<UserFollowResponseDto> getUserFollow(@PathVariable String email){
-        return userService.getUserFollowers(email);
-    }
 
 
 

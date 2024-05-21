@@ -8,21 +8,23 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "follow")
-@IdClass(FollowId.class)
 //@JsonIdentityInfo(generator = ObjectIdGenerators.StringIdGenerator.class , property = "id")
-public class Follow {
+public class Follow  {
 
 
-    @Id
-    @ManyToOne
+    @EmbeddedId
+    private FollowId followId;
+
+    @MapsId("userId")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "user_id")
     private User userId;
 //    @JoinColumn(name = "user_id")
 //    private User userId;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "FOLLOW", referencedColumnName = "user_id")
+    @MapsId("follower")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FOLLOWER", referencedColumnName = "user_id")
     private User follower;
 
 }

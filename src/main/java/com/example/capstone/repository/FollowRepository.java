@@ -10,24 +10,15 @@ import java.util.List;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, FollowId> {
 
-    List<Follow> findByUserId_UserId(String email);
-//    List<Follow> findByNickname_Nickname(String nickname);
+    List<Follow> findByUserId_UserId(String userId);
 
 
 
-    List<Follow> findByFollower_UserId(String email);
-//    List<Follow> findByFollower_Nickname(String nickname);
+    List<Follow> findByFollower_UserId(String userId);
+    Long countByFollower_UserId(String userId);
 
-//    void deleteByUserId(String email);
-//
-//    void deleteByFollower(String email);
+    Long countByUserId_UserId(String userId);
 
 
-
-
-
-//    List<Follow> findByUserId_UserId(String email);
-//
-//    List<Follow> findByFollower_UserId(String email);
 
 }
