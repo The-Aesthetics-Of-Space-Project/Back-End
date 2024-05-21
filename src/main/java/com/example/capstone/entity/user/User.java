@@ -16,13 +16,15 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(exclude = {"followers","followedUser", "generalPosts"})
-@Builder
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false, length = 30)
+    @Column(name = "user_id", nullable = false)
     private String userId;
 
     @Column(nullable = false, length = 30, unique = true)
