@@ -13,4 +13,7 @@ public interface GeneralLikeRepository extends JpaRepository<GeneralLike, Genera
 
     List<GeneralLike> findByUser_UserId(String userId);
 
+
+    Long countByUser_UserId(String userId);
+
 }

@@ -13,7 +13,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +41,9 @@ public class UserService {
 
 
 
-
+    /**
+     * 유저 정보 조회
+     */
     @Transactional
     public UserDetailsResponseDto getUserDetails(String userId){
 
@@ -54,11 +58,13 @@ public class UserService {
         // 몇명 팔로우 했는지
         Long followed = followRepository.countByFollower_UserId(userId);
 
+        Long likes = generalLikeRepository.countByUser_UserId(userId);
+
         return UserDetailsResponseDto.createDto(
                 userRepository.findByUserId(userId).orElseThrow(),
                 follower,
                 followed,
-                0L); // 임시 좋아요
+                likes);
     }
 
 
@@ -76,6 +82,23 @@ public class UserService {
         }
 
         return new UserFollowerResponseDto(followerList);
+    }
+
+
+    /**
+     * 팔로워 목록 조회
+     */
+    @Transactional
+    public UserFollowerResponseDto getUserFollowings(String userId){
+
+
+        List<String> followingList = new ArrayList<>();
+
+        for(Follow follower : followRepository.findByFollower_UserId(userId)){
+            followingList.add(follower.getFollower().getNickname());
+        }
+
+        return new UserFollowerResponseDto(followingList);
     }
 
     /**
@@ -115,10 +138,29 @@ public class UserService {
     /**
      * 닉네임 중복 확인
      */
-
     @Transactional
     public boolean checkNickname(String nickname){
         return userRepository.findByNickname(nickname).isEmpty();
+    }
+
+    /**
+     * 비밀번호 변경전 확인
+     */
+    @Transactional
+    public boolean checkPass(String userId,String password){
+        return userRepository.findByUserId(userId)
+                .get()
+                .getPassword().equals(password);
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    @Transactional
+    public void updateUserPass(String userId, String password){
+        userRepository.findByUserId(userId)
+                .get()
+                .updatePassword(password);
     }
 
 
@@ -127,7 +169,6 @@ public class UserService {
      */
     @Transactional
     public void deleteUserDetails(String email){
-
         userRepository.deleteById(email);
     }
 

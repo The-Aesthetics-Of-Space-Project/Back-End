@@ -1,7 +1,6 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
-import com.example.capstone.dto.response.UserFollowResponseDto;
 import com.example.capstone.dto.response.UserDetailsResponseDto;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -34,16 +32,21 @@ public class UserController {
 //                .
 //    }
 
-    @GetMapping("/{email}")
-    public UserDetailsResponseDto getUserDetails(@PathVariable String email) throws IOException{
-        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(email);
+    /**
+     * 회원 정보 조회
+     */
+    @GetMapping("/details")
+    public UserDetailsResponseDto getUserDetails(@RequestParam String userId) throws IOException{
+        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(userId);
         return userDetailsResponseDto;
     }
 
 
 
 
-    // 임시 회원정보수정
+    /**
+     * 회원 정보 수정
+     */
     @PostMapping("/update")
     public ResponseEntity<String> updateUserDetails(@RequestParam String u_id, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
         log.info(u_id);
@@ -51,30 +54,30 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("프로필 등록에 성공하였습니다.");
     }
 
-    @GetMapping(value = "/{email}/image",produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getUserImage(@PathVariable String email)throws IOException{
-        InputStream is = new FileInputStream("C:/profile/image/"+email+".jpg");
+    /**
+     * 회원 프로필 사진 조회
+     */
+    @GetMapping(value = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getUserImage(@RequestParam String userId)throws IOException{
+        InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
         log.info(is.toString());
         return IOUtils.toByteArray(is);
     }
 
+    /**
+     * 회원 정보 수정 닉네임 체크
+     */
     @GetMapping("/check_nick")
-    public ResponseEntity<String> checkNickname(@RequestParam String nickname){
-        if(userService.checkNickname(nickname))
-            return ResponseEntity.status(HttpStatus.OK).body("사용 가능한 닉네임");
-        else
-            return ResponseEntity.status(HttpStatus.OK).body("사용중인 닉네임");
+    public boolean checkNickname(@RequestParam String nickname){
+        return userService.checkNickname(nickname);
     }
 
+    /**
+     * 회원 탈퇴
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteUserDetails(@RequestParam String u_id){
         userService.deleteUserDetails(u_id);
         return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴 완료");
     }
-
-
-
-
-
-
 }

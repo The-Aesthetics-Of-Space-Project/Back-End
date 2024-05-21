@@ -102,5 +102,9 @@ public class User {
     public void updateDetails(UserDetailsUpdateRequestDto userDetailsUpdateRequestDto){
         this.nickname = userDetailsUpdateRequestDto.getNickname();
     }
+
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }
 

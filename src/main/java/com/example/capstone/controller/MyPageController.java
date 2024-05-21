@@ -8,6 +8,8 @@ import com.example.capstone.service.GeneralPostService;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,14 @@ public class MyPageController {
     @GetMapping("/followers")
     public UserFollowerResponseDto getUsersFollowers(@RequestParam String userId){
         return userService.getUserFollowers(userId);
+    }
+
+    /**
+     * 팔로잉 목록 조회
+     */
+    @GetMapping("/followings")
+    public UserFollowerResponseDto getUsersFollowings(@RequestParam String userId){
+        return userService.getUserFollowings(userId);
     }
 
     /**
@@ -55,6 +65,22 @@ public class MyPageController {
         return userService.getUserPosts(userId);
     }
 
+    /**
+     * 비밀번호 변경전 확인
+     */
+    @PostMapping("/check_pass")
+    public boolean checkUserPass(@RequestParam String userId, String password){
+        return userService.checkPass(userId,password);
+    }
+
+    /**
+     * 비밀번호 변경
+     */
+    @PostMapping("/update_pass")
+    public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
+        userService.updateUserPass(userId,password);
+        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
+    }
 
 
 }

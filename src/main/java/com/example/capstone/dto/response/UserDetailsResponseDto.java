@@ -31,6 +31,7 @@ public class UserDetailsResponseDto {
                 .userId(user.getUserId())
                 .profile(user.getProfile())
                 .nickname(user.getNickname())
+                .profile(user.getProfile())
                 .follower(follower)
                 .following(followed)
                 .liked(liked)
