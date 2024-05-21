@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @Slf4j
 public class MainController {
 
