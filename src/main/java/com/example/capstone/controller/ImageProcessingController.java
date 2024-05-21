@@ -4,25 +4,37 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Controller
+@RestController
 public class ImageProcessingController {
     private static final String PYTHON_SCRIPT_PATH = "C:\\Users\\82103\\Desktop\\project\\back-end\\YOLOv5\\yolov5\\evalImage.py";
     private static final String PYTHON_INTERPRETER_PATH = "D:\\Anaconda\\envs\\my_env\\python.exe";
 
-    @GetMapping(value = "/testPythonScript")
-    public CompletableFuture<ResponseEntity<String>> testPythonScript() {
+    @PostMapping(value = "/testPythonScript")
+    public CompletableFuture<ResponseEntity<String>> testPythonScript(@RequestParam("file") MultipartFile file) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder(PYTHON_INTERPRETER_PATH, PYTHON_SCRIPT_PATH);
+                // 업로드된 파일을 임시 파일로 저장
+                File tempFile = File.createTempFile("uploaded-", ".jpg");
+                try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                    fos.write(file.getBytes());
+                }
+
+                // Python 스크립트에 이미지 파일 경로를 인수로 전달
+                ProcessBuilder pb = new ProcessBuilder(PYTHON_INTERPRETER_PATH, PYTHON_SCRIPT_PATH, tempFile.getAbsolutePath());
                 Process process = pb.start();
 
                 StringBuilder output = new StringBuilder();
