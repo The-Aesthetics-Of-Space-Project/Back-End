@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class MainController {
                 responseData.put("userId", userLoginDto.getUserId());
                 responseData.put("nickname", userRepository.findNickname(id));
                 session.setAttribute("ID",userLoginDto.getUserId());
+                log.info("로그인 성공");
                 return ResponseEntity.ok().body(responseData);
             }
         }
@@ -78,7 +80,7 @@ public class MainController {
 
     // 유효성 검사 로직 Errors
     @PostMapping("/signup")
-    public ResponseEntity<Map<String, Object>> execSignup(@Valid @RequestBody UserSignupDto userDto, Errors errors) {
+    public ResponseEntity<Map<String, Object>> execSignup(@Valid @RequestBody UserSignupDto userDto, Errors errors)throws IOException {
         Map<String, Object> response = new HashMap<>();
 
         if (errors.hasErrors()) {

@@ -101,8 +101,17 @@ public class User {
 
 
 
-    public void updateDetails(UserDetailsUpdateRequestDto userDetailsUpdateRequestDto){
-        this.nickname = userDetailsUpdateRequestDto.getNickname();
+    public void updateDetails(String userId,UserDetailsUpdateRequestDto userDetailsUpdateRequestDto){
+        if (userDetailsUpdateRequestDto.getNickname()!=null){
+            this.nickname = userDetailsUpdateRequestDto.getNickname();
+        }
+        if (userDetailsUpdateRequestDto.getProfile()!=null){
+            this.profile = "http://119.198.33.129:8080/users/image?userId="+userId;
+        }
+        if (userDetailsUpdateRequestDto.getPassword()!=null){
+            this.password = userDetailsUpdateRequestDto.getPassword();
+        }
+
     }
 
     public void updatePassword(String password){
