@@ -54,7 +54,7 @@ public class UserController {
     }
     @PutMapping("/update")
     public ResponseEntity<String> updateUserDetails(@RequestParam String userId, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
-        log.info(userId);
+        log.info(userDetailsUpdateRequestDto.toString());
         userService.updateUserDetails(userId, userDetailsUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("프로필 등록에 성공하였습니다.");
     }
@@ -65,7 +65,7 @@ public class UserController {
     @GetMapping(value = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getUserImage(@RequestParam String userId)throws IOException{
         InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
-        log.info(is.toString());
+        log.info("이미지 조회"+userId);
         return IOUtils.toByteArray(is);
     }
 

@@ -54,6 +54,7 @@ public class MainController {
                 responseData.put("userId", userLoginDto.getUserId());
                 responseData.put("nickname", userRepository.findNickname(id));
                 session.setAttribute("ID",userLoginDto.getUserId());
+                log.info("로그인 성공");
                 return ResponseEntity.ok().body(responseData);
             }
         }

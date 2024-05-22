@@ -96,16 +96,15 @@ public class UserService {
         //
         userRepository.findByUserId(email)
                 .orElseThrow()
-                .updateDetails(userDetailsUpdateRequestDto);
+                .updateDetails(email,userDetailsUpdateRequestDto);
 
-        // 파일 명 : 이메일 + .jpg
-        File saveFile = new File(email + ".jpg");
-
-        // 이미지 저장
-        userDetailsUpdateRequestDto
-                .getProfile()
-                .transferTo(saveFile);
-
+        // 파일이 비어있지 않으면 profile/image 경로에 이미지 저장
+        if( userDetailsUpdateRequestDto.getProfile()!=null ) {
+            File saveFile = new File(email + ".jpg");
+            userDetailsUpdateRequestDto
+                    .getProfile()
+                    .transferTo(saveFile);
+        }
     }
 
 
