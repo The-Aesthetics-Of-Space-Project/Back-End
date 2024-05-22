@@ -3,7 +3,7 @@ package com.example.capstone.service;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
-import com.example.capstone.dto.response.UserPostLikesResponseDto;
+import com.example.capstone.dto.response.UserGeneralPostResponseDto;
 import com.example.capstone.entity.follow.FollowId;
 import com.example.capstone.repository.*;
 import jakarta.transaction.Transactional;
@@ -77,24 +77,45 @@ public class MypageService {
                 .toList();
     }
 
+    /**
+     * 스크랩 목록 조회
+     */
+    @Transactional
+    public List<UserGeneralPostResponseDto> getUserScraps(String userId){
+        return scrapRepository.findByUser_UserId(userId)
+                .stream()
+                .map(UserGeneralPostResponseDto::createScrapsDto)
+                .toList();
+    }
+
 
     /**
      * 회원 좋아요 목록 조회
      */
-    @Transactional
-    public List<UserPostLikesResponseDto> getUserLikes(String userId) {
+
+    public List<UserGeneralPostResponseDto> getUserLikes(String userId) {
         return generalLikeRepository.findByUser_UserId(userId)
                 .stream()
-                .map(UserPostLikesResponseDto::createDto)
+                .map(UserGeneralPostResponseDto::createLikesDto)
                 .toList();
     }
 
     /**
      * 언팔로우
      */
-    public void deleteUserFollower(String userId,String follow){
-        //followId(팔로우한 사람, 팔로우 당한 사람)
+    public void deleteUserFollowing(String userId, String follow){
+        //followId(userID-팔로우 당한사람, follower-팔로우한사람)
         FollowId followId = new FollowId(follow,userId);
+        followRepository.deleteById(followId);
+    }
+
+    /**
+     * 팔로워 삭제
+     */
+
+    public void deleteUserFollower(String userId,String follower){
+        //followId(userID-팔로우 당한사람, follower-팔로우한사람)
+        FollowId followId = new FollowId(userId,follower);
         followRepository.deleteById(followId);
     }
 

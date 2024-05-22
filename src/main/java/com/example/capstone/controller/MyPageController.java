@@ -2,7 +2,7 @@ package com.example.capstone.controller;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
-import com.example.capstone.dto.response.UserPostLikesResponseDto;
+import com.example.capstone.dto.response.UserGeneralPostResponseDto;
 import com.example.capstone.service.MypageService;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +25,7 @@ public class MyPageController {
     public MypageService mypageService;
 
 
+
     /**
      * 팔로워 목록 조회
      */
@@ -44,25 +45,35 @@ public class MyPageController {
     /**
      * 팔로잉 삭제
      */
-    @DeleteMapping("/delete_follow")
+    @DeleteMapping("/unfollowing")
     public ResponseEntity<String> deleteUserFollowing(@RequestParam String userId,@RequestParam String follow){
-        mypageService.deleteUserFollower(userId,follow);
+        log.info("언팔로우 = userId: "+userId+"follow: "+follow);
+        mypageService.deleteUserFollowing(userId,follow);
         return ResponseEntity.status(HttpStatus.OK).body("언팔하였습니다.");
+    }
+    /**
+     * 팔로워 삭제
+     */
+    @DeleteMapping("/unfollower")
+    public ResponseEntity<String> deleteUserFollower(@RequestParam String userId, @RequestParam String follower){
+        log.info("언팔로우 = userId: "+userId+"follower: "+follower);
+        mypageService.deleteUserFollower(userId,follower);
+        return ResponseEntity.status(HttpStatus.OK).body("팔로워를 삭제하였습니다.");
     }
 
     /**
      * 스크랩 목록 조회
      */
     @GetMapping("/scraps")
-    public void getUsersScraps(@RequestParam String userId){
-
+    public List<UserGeneralPostResponseDto> getUsersScraps(@RequestParam String userId){
+        return mypageService.getUserScraps(userId);
     }
 
     /**
      * 좋아요 목록 조회
      */
     @GetMapping("/likes")
-    public List<UserPostLikesResponseDto> getUsersLikes(@RequestParam String userId){
+    public List<UserGeneralPostResponseDto> getUsersLikes(@RequestParam String userId){
         return mypageService.getUserLikes(userId);
     }
 
