@@ -7,10 +7,12 @@ import com.example.capstone.repository.ChatRoomRepository;
 import com.example.capstone.repository.MessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -28,22 +30,25 @@ public class MessageController {
     @Autowired
     private ChatRoomRepository chatRoomRepository;
 
-    // 메시지 전송시 처리
     @MessageMapping("/{roomId}")
-    @SendTo("/pub/{roomId}") // 목적지 여기로 DTO 를 보내 화면에 표시
-    public MessageDto send(MessageDto dto){
-        log.info(String.valueOf(dto));
+    @SendTo("/pub/{roomId}")
+    public MessageDto send(@DestinationVariable(value = "roomId") String roomId, @RequestBody MessageDto dto) {
+        log.info("Received MessageDto: " + dto);
 
-        // 채팅방 조회
+        try {
+            log.info("Received raw message: " + dto);
+        } catch (Exception e) {
+            log.error("Failed to log raw message", e);
+        }
+
         Chatroom chatRoom = chatRoomRepository.findById(dto.getRoomid())
                 .orElseThrow(() -> new RuntimeException("채팅방을 찾을 수 없습니다."));
 
-        // 메시지 전송 로직
         Message message = new Message(dto.getContent(), dto.getSender(), dto.getReciver());
         message.setChatRoom(chatRoom);
         messageRepository.save(message);
 
         return dto;
     }
-
 }
+

@@ -36,8 +36,6 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 }
 
-compileJava {	options.compilerArgs << '-parameters'}
-
 tasks.named('test') {
 	useJUnitPlatform()
 	jvmArgs '-Xshare:off' // JVM 아규먼트 설정

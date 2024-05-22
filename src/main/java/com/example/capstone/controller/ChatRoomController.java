@@ -4,11 +4,11 @@ import com.example.capstone.dto.ChatRoomDto;
 import com.example.capstone.entity.chat.Chatroom;
 import com.example.capstone.entity.chat.Message;
 import com.example.capstone.repository.ChatRoomRepository;
+import com.example.capstone.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -17,9 +17,13 @@ import java.util.stream.Stream;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "http://localhost:8083")
 public class ChatRoomController {
     @Autowired
     ChatRoomRepository chatRoomRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     // 채팅방 생성 로직
     @GetMapping("/chatroom/{id}")
@@ -30,15 +34,16 @@ public class ChatRoomController {
         return ResponseEntity.ok().body(responseData);
     }
 
-    private String getRoomId(String sessionId, String id) {
-        String roomId = chatRoomRepository.findroomid(sessionId, id);
+    private String getRoomId(String userNickname, String partnerNickname) {
+        log.info("userNickname : {}, partnerNickname : {} " ,userNickname,partnerNickname );
+        String roomId = chatRoomRepository.findroomid(userNickname, partnerNickname);
         if (roomId == null) {
-            roomId = chatRoomRepository.findroomid(id, sessionId);
+            roomId = chatRoomRepository.findroomid(partnerNickname, userNickname);
         }
 
         if (roomId == null) {
             // 대화한 적이 없는 경우 새로운 roomid 생성
-            roomId = createNewRoom(sessionId, id);
+            roomId = createNewRoom(userNickname, partnerNickname);
         } else {
             log.info("roomid:" + roomId);
         }
@@ -61,8 +66,9 @@ public class ChatRoomController {
     }
 
     private List<String> getChatPartners(String id) {
-        List<String> test = chatRoomRepository.findPerson(id);
-        List<String> test2 = chatRoomRepository.findPerson2(id);
+        String nickname =userRepository.findNickname(id);
+        List<String> test = chatRoomRepository.findPerson(nickname);
+        List<String> test2 = chatRoomRepository.findPerson2(nickname);
         List<String> combined = Stream.concat(test.stream(), test2.stream())
                 .collect(Collectors.toList());
         log.info(combined.toString());
@@ -71,17 +77,17 @@ public class ChatRoomController {
 
     // 메시지 읽어드리는 로직
     @ResponseBody
-    @RequestMapping("/api/chat_history")
-    public Set<Message> somthing(@RequestParam String partner, HttpSession session){
-        String sessionId = (String) session.getAttribute("sessionId");
-        String roomId = getRoomId(sessionId, partner);
+    @PostMapping("/api/chat_history/{partner}/{userid}")
+    public Set<Message> getChatHistory(@PathVariable(value = "partner") String partner,
+                                       @PathVariable(value = "userid") String userid) {
 
-        log.info("partner name : " + partner);
-        log.info("sessionId : " + sessionId);
-        log.info("roomid : " + roomId);
+        String nickname =userRepository.findNickname(userid);
+        String roomId = getRoomId(nickname, partner);
+
+        log.info("partner: {}, userid: {}, roomid: {}", partner, nickname, roomId);
 
         if (roomId == null) {
-            log.info("null임");
+            log.info("No chat room found for the given users.");
             return Collections.emptySet();
         }
 
@@ -89,19 +95,35 @@ public class ChatRoomController {
         if (optionalChatRoom.isPresent()) {
             Chatroom chatRoom = optionalChatRoom.get();
             Set<Message> messages = chatRoom.getMessages();
+            if (messages == null) {
+                messages = new HashSet<>();
+            }
             messages.forEach(message -> log.info(message.toString()));
             return messages;
         } else {
-            log.info("null임");
+            log.info("Chat room not found.");
             return Collections.emptySet();
         }
     }
 
     @ResponseBody
-    @RequestMapping("/api/chat_room")
-    public String room(@RequestParam String partner, HttpSession session) {
-        String sessionId = (String) session.getAttribute("sessionId");
-        String roomId = getRoomId(sessionId, partner);
+    @GetMapping("/chat/{id}")
+    public String test(@PathVariable(value = "id") String id){
+        log.info("여기 지나감, id : {}",id);
+        String nickname =userRepository.findNickname(id);
+        String nickname2 =userRepository.findNickname("jerry6475@naver.com");
+
+        return getRoomId(nickname,nickname2);
+    }
+
+    @ResponseBody
+    @PostMapping("/api/chat_room/{partner}/{userid}")
+    public String room(@PathVariable(value = "partner") String partner,
+                       @PathVariable(value = "userid") String userid) {
+        log.info("chat_room. partner : {}, userid : {}", partner,userid);
+        String nickname =userRepository.findNickname(userid);
+
+        String roomId = getRoomId(nickname, partner);
 
         log.info("roomid : " + roomId);
         return roomId;
