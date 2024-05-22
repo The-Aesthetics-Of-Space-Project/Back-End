@@ -2,6 +2,7 @@ package com.example.capstone.controller;
 
 import com.example.capstone.dto.request.UserDetailsUpdateRequestDto;
 import com.example.capstone.dto.response.UserDetailsResponseDto;
+import com.example.capstone.dto.response.UserUpDetailsResponseDto;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -47,10 +48,14 @@ public class UserController {
     /**
      * 회원 정보 수정
      */
-    @PostMapping("/update")
-    public ResponseEntity<String> updateUserDetails(@RequestParam String u_id, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
-        log.info(u_id);
-        userService.updateUserDetails(u_id, userDetailsUpdateRequestDto);
+    @GetMapping("/update") // 오류남 수정 요망
+    public UserUpDetailsResponseDto userDetail(@RequestParam String userId){
+        return userService.userDetail(userId);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUserDetails(@RequestParam String userId, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto)throws IOException {
+        log.info(userDetailsUpdateRequestDto.toString());
+        userService.updateUserDetails(userId, userDetailsUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("프로필 등록에 성공하였습니다.");
     }
 
@@ -60,7 +65,7 @@ public class UserController {
     @GetMapping(value = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getUserImage(@RequestParam String userId)throws IOException{
         InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
-        log.info(is.toString());
+        log.info("이미지 조회"+userId);
         return IOUtils.toByteArray(is);
     }
 
@@ -76,8 +81,8 @@ public class UserController {
      * 회원 탈퇴
      */
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUserDetails(@RequestParam String u_id){
-        userService.deleteUserDetails(u_id);
+    public ResponseEntity<String> deleteUserDetails(@RequestParam String userId){
+        userService.deleteUserDetails(userId);
         return ResponseEntity.status(HttpStatus.OK).body("회원 탈퇴 완료");
     }
 }

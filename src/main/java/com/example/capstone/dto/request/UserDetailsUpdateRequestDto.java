@@ -15,11 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class UserDetailsUpdateRequestDto {
 
-    private String userId;
-
     private String nickname;
 
     private MultipartFile profile;
+
+    private String password;
 
 
 }

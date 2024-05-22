@@ -11,8 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 public class UserDetailsResponseDto {
 
-    private String userId;
-
     private String profile;
 
     private String nickname;
@@ -24,17 +22,19 @@ public class UserDetailsResponseDto {
     private Long following;
 
     // 게시물 좋아요 ( 사용자가 좋아요 누른 게시글의 수 )
-    private Long liked;
+    private Long likes;
 
-    public static UserDetailsResponseDto createDto(User user, Long follower, Long followed, Long liked){
+    private Long scraps;
+
+    public static UserDetailsResponseDto createDto(User user, Long follower, Long followed, Long likes, Long scraps){
         return UserDetailsResponseDto.builder()
-                .userId(user.getUserId())
                 .profile(user.getProfile())
                 .nickname(user.getNickname())
                 .profile(user.getProfile())
                 .follower(follower)
                 .following(followed)
-                .liked(liked)
+                .likes(likes)
+                .scraps(scraps)
                 .build();
     }
 

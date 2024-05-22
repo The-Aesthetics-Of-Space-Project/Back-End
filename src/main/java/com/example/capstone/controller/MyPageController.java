@@ -1,10 +1,9 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
-import com.example.capstone.dto.response.UserFollowerResponseDto;
-import com.example.capstone.dto.response.UserPostLikesResponseDto;
-import com.example.capstone.entity.community.general.article.GeneralPost;
-import com.example.capstone.service.GeneralPostService;
+import com.example.capstone.dto.response.UserFollowResponseDto;
+import com.example.capstone.dto.response.UserGeneralPostResponseDto;
+import com.example.capstone.service.MypageService;
 import com.example.capstone.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,37 +21,60 @@ public class MyPageController {
     @Autowired
     public UserService userService;
 
+    @Autowired
+    public MypageService mypageService;
+
+
 
     /**
      * 팔로워 목록 조회
      */
     @GetMapping("/followers")
-    public UserFollowerResponseDto getUsersFollowers(@RequestParam String userId){
-        return userService.getUserFollowers(userId);
+    public List<UserFollowResponseDto> getUserFollowers(@RequestParam String userId){
+        return mypageService.getUserFollowers(userId);
     }
 
     /**
      * 팔로잉 목록 조회
      */
     @GetMapping("/followings")
-    public UserFollowerResponseDto getUsersFollowings(@RequestParam String userId){
-        return userService.getUserFollowings(userId);
+    public List<UserFollowResponseDto> getUserFollowings(@RequestParam String userId){
+        return mypageService.getUserFollowings(userId);
+    }
+
+    /**
+     * 팔로잉 삭제
+     */
+    @DeleteMapping("/unfollowing")
+    public ResponseEntity<String> deleteUserFollowing(@RequestParam String userId,@RequestParam String follow){
+        log.info("언팔로우 = userId: "+userId+"follow: "+follow);
+        mypageService.deleteUserFollowing(userId,follow);
+        return ResponseEntity.status(HttpStatus.OK).body("언팔하였습니다.");
+    }
+    /**
+     * 팔로워 삭제
+     */
+    @DeleteMapping("/unfollower")
+    public ResponseEntity<String> deleteUserFollower(@RequestParam String userId, @RequestParam String follower){
+        log.info("언팔로우 = userId: "+userId+"follower: "+follower);
+        mypageService.deleteUserFollower(userId,follower);
+        return ResponseEntity.status(HttpStatus.OK).body("팔로워를 삭제하였습니다.");
     }
 
     /**
      * 스크랩 목록 조회
      */
     @GetMapping("/scraps")
-    public void getUsersScraps(@RequestParam String userId){
-
+    public List<UserGeneralPostResponseDto> getUsersScraps(@RequestParam String userId){
+        return mypageService.getUserScraps(userId);
     }
 
     /**
      * 좋아요 목록 조회
      */
     @GetMapping("/likes")
-    public List<UserPostLikesResponseDto> getUsersLikes(@RequestParam String userId){
-        return userService.getUserLikes(userId);
+    public List<UserGeneralPostResponseDto> getUsersLikes(@RequestParam String userId){
+        return mypageService.getUserLikes(userId);
     }
 
     /**
@@ -62,13 +84,13 @@ public class MyPageController {
     public List<GeneralPostListResponseDto> getUsersPosts(@RequestParam String userId){
 
 
-        return userService.getUserPosts(userId);
+        return mypageService.getUserPosts(userId);
     }
 
     /**
      * 비밀번호 변경전 확인
      */
-    @PostMapping("/check_pass")
+    @PutMapping("/check_pass")
     public boolean checkUserPass(@RequestParam String userId, String password){
         return userService.checkPass(userId,password);
     }
@@ -76,7 +98,7 @@ public class MyPageController {
     /**
      * 비밀번호 변경
      */
-    @PostMapping("/update_pass")
+    @PutMapping("/update_pass")
     public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
         userService.updateUserPass(userId,password);
         return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
