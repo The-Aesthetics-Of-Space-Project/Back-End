@@ -1,4 +1,4 @@
-/*package com.example.capstone.config;
+package com.example.capstone.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -24,4 +24,4 @@ public class SwaggerConfig {
                 .pathsToMatch(paths)     // 그룹에 속하는 경로 패턴을 지정한다.
                 .build();
     }
-}*/
+}
