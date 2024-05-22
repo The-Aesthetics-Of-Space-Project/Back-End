@@ -4,6 +4,7 @@ package com.example.capstone.service;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
 import com.example.capstone.dto.response.UserPostLikesResponseDto;
+import com.example.capstone.entity.follow.FollowId;
 import com.example.capstone.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -91,8 +92,10 @@ public class MypageService {
     /**
      * 언팔로우
      */
-    public void deleteUserFollower(String userId){
-//        followRepository.
+    public void deleteUserFollower(String userId,String follow){
+        //followId(팔로우한 사람, 팔로우 당한 사람)
+        FollowId followId = new FollowId(follow,userId);
+        followRepository.deleteById(followId);
     }
 
 

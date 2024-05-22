@@ -45,8 +45,8 @@ public class MyPageController {
      * 팔로잉 삭제
      */
     @DeleteMapping("/delete_follow")
-    public ResponseEntity<String> deleteUserFollowing(@RequestParam String userId){
-
+    public ResponseEntity<String> deleteUserFollowing(@RequestParam String userId,@RequestParam String follow){
+        mypageService.deleteUserFollower(userId,follow);
         return ResponseEntity.status(HttpStatus.OK).body("언팔하였습니다.");
     }
 
