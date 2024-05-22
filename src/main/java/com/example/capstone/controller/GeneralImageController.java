@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,9 +45,11 @@ public class GeneralImageController {
     @GetMapping("/api/general/post/image/{imageId}")
     public ResponseEntity<Resource> getImage(@PathVariable Integer imageId) throws Exception {
         Resource resource = generalImageService.getImage(imageId);
+        String fileName = resource.getFilename();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Paths.get(fileName)))
                 .body(resource);
     }
 }
