@@ -21,6 +21,7 @@ public class GeneralPostDetailResponseDto {
     private String nickname;
     private Integer likeCount;
     private Integer scrapCount;
+    private String profile;
 
     /**
      * GeneralPost 엔티티 클래스를 GeneralPostDetailResponseDto로 변환
@@ -35,6 +36,7 @@ public class GeneralPostDetailResponseDto {
                 .nickname(generalPost.getUser().getNickname())
                 .likeCount(generalPost.getLikes().size())
                 .scrapCount(generalPost.getScraps().size())
+                .profile(generalPost.getUser().getProfile())
                 .build();
     }
 }
