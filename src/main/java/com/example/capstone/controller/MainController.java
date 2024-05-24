@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@RestController
 @Slf4j
 public class MainController {
 
@@ -61,29 +61,21 @@ public class MainController {
     }
 
     @GetMapping("/checkUserId/{userId}")
-    public ResponseEntity<?> checkUserID(@PathVariable(value="userId") String userId){
+    public ResponseEntity<Boolean> checkUserID(@PathVariable(value="userId") String userId) {
         String id = userRepository.findID(userId);
-        log.info(id);
-        if(id==null){
-            log.info("id : " + id);
-            return ResponseEntity.ok().body(id);
-        }else{
-            log.info("id : " + id);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("존재하는 아이디입니다.");
-        }
+        log.info("Checked userId: {}", userId);
+        log.info("Resulting id: {}", id);
+        boolean isAvailable = (id == null);
+        return ResponseEntity.ok(isAvailable);
     }
 
     @GetMapping("/checknickname/{nickname}")
-    public ResponseEntity<?> checkNickname(@PathVariable(value="nickname") String nickname){
-        Boolean isin = userRepository.existsByNickname(nickname);
-        log.info(String.valueOf(isin));
-        if(!isin){
-            log.info("nickname : " + isin);
-            return ResponseEntity.ok().body(isin);
-        }else{
-            log.info("nickname : " + isin);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("존재하는 닉네임입니다.");
-        }
+    public ResponseEntity<Boolean> checkNickname(@PathVariable(value="nickname") String nickname) {
+        boolean exists = userRepository.existsByNickname(nickname);
+        log.info("Checked nickname: {}", nickname);
+        log.info("Exists: {}", exists);
+        boolean isAvailable = !exists;
+        return ResponseEntity.ok(isAvailable);
     }
 
     // 유효성 검사 로직 Errors
