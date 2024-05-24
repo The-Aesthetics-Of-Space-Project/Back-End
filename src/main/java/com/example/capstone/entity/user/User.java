@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"followers","followings", "generalPosts","generalLikes","scraps","generalComments"})
+@EqualsAndHashCode(exclude = {"followers", "followings", "generalPosts", "generalLikes", "scraps", "generalComments"})
 @Data
 @Getter
 @Setter
