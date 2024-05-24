@@ -60,22 +60,8 @@ public class UserService {
                 .orElseThrow()
                 .getNickname();
 
-        // 팔로워 몇명인지
-        Long follower = followRepository.countByUserId_UserId(userId);
-
-        // 몇명 팔로우 했는지
-        Long followed = followRepository.countByFollower_UserId(userId);
-
-        Long likes = generalLikeRepository.countByUser_UserId(userId);
-
-        Long scraps = scrapRepository.countByUser_UserId(userId);
-
         return UserDetailsResponseDto.createDto(
-                userRepository.findByUserId(userId).orElseThrow(),
-                follower,
-                followed,
-                likes,
-                scraps);
+                userRepository.findByUserId(userId).orElseThrow());
     }
 
 

@@ -14,6 +14,7 @@ public class GeneralPostListResponseDto {
     private String thumbnail;
     private String nickname;
     private Integer likeCount;
+    private String profile;
 
     /**
      * GeneralPost 엔티티 클래스를 GeneralPostListResponseDto로 변환
@@ -25,6 +26,7 @@ public class GeneralPostListResponseDto {
                 .thumbnail(generalPost.getThumbnail())
                 .nickname(generalPost.getUser().getNickname())
                 .likeCount(generalPost.getLikes().size())
+                .profile(generalPost.getUser().getProfile())
                 .build();
     }
 }
