@@ -18,8 +18,6 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"followers","followings", "generalPosts","generalLikes","scraps","generalComments"})
 @Data
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 public class User {

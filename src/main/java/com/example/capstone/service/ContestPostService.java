@@ -16,6 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -27,6 +32,8 @@ public class ContestPostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private final Path root = Paths.get("c:\\Temp\\image\\ContestPostImage");
 
 
     /**
@@ -54,10 +61,28 @@ public class ContestPostService {
      * 일반 게시물 등록
      */
     @Transactional
-    public void createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto){
+    public void createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto) throws IOException {
+        if(!Files.exists(root)) {
+            Files.createDirectories(root);
+        }
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
-        contestPostRepository.save(contestPostCreateRequestDto.toEntity(user));
+
+        String fileExt = contestPostCreateRequestDto
+                .getThumbnail()
+                .getContentType()
+                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
+
+        // DB에 저장
+        ContestPost contestPost = contestPostRepository.save(contestPostCreateRequestDto.toEntity(user));
+        contestPost.setThumbnail("/api/contest/image/"+contestPost.getContestId().toString());
+
+        if( contestPostCreateRequestDto.getThumbnail()!=null ) {
+            File saveFile = new File("/ContestPostImage/"+contestPost.getContestId() + ".jpg");
+            contestPostCreateRequestDto
+                    .getThumbnail()
+                    .transferTo(saveFile);
+        }
     }
 
     /**

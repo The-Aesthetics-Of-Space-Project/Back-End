@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
@@ -44,10 +46,13 @@ public class ContestPostController {
      * 공모전 게시물 등록
      */
     @PostMapping("/post")
-    public ResponseEntity<String> createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto){
+    public ResponseEntity<String> createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto)throws IOException {
         contestPostService.createContestPost(contestPostCreateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("공모전 게시글을 등록하였습니다.");
     }
+    /**
+     * 공모전 이미지 등록
+     */
 
 
     /**

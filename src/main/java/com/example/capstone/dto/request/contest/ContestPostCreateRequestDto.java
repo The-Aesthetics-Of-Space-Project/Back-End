@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ContestPostCreateRequestDto {
     private String contest;
     private String title;
-    private String thumbnail;
+    private MultipartFile thumbnail;
     private String contents;
     private String nickname;
 
@@ -23,7 +24,6 @@ public class ContestPostCreateRequestDto {
         return  ContestPost.builder()
                 .contest(contest)
                 .title(title)
-                .thumbnail(thumbnail)
                 .date(DateTimeUtils.currentTime())
                 .contents(contents)
                 .user(user)

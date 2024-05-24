@@ -28,7 +28,7 @@ public class ContestPost {
     @Column(nullable = false, length = 20)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String thumbnail;
 
     @Column(nullable = false)
