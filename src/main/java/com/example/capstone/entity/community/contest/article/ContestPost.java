@@ -44,10 +44,7 @@ public class ContestPost {
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")
     private User user;
 
-    @OneToMany(mappedBy = "contestPost"
-            , fetch = FetchType.LAZY
-            , orphanRemoval = true)
-    private Set<ContestImage> contestImages;
+
 
     @OneToMany(mappedBy = "contestPost"
             , fetch = FetchType.LAZY

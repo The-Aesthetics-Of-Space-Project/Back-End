@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"followers","followings", "generalPosts"})
+@EqualsAndHashCode(exclude = {"followers","followings", "generalPosts","generalLikes","scraps","generalComments"})
 @Data
 @Getter
 @Setter
@@ -41,7 +41,7 @@ public class User {
      */
     @OneToMany(mappedBy = "user",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true)
     private Set<GeneralPost> generalPosts;
 
