@@ -5,13 +5,12 @@ import com.example.capstone.entity.community.general.comment.GeneralComment;
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"comments", "likes","scraps"})
+@EqualsAndHashCode(exclude = {"comments", "likes", "scraps"})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +22,6 @@ public class GeneralPost {
     @Column(nullable = false)
     private String title;
 
-    @Lob
     @Column(nullable = true) // DB 테스트를 위해 임시로 false->true 변경
     private String thumbnail;
 

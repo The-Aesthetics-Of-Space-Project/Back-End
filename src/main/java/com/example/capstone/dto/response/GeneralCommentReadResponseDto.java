@@ -18,18 +18,20 @@ public class GeneralCommentReadResponseDto {
     private LocalDateTime date;
     private Integer articleId;
     private String nickname;
+    private String profile;
 
     /**
      * GeneralComment 엔티티 클래스를 GeneralCommentReadResponseDto로 변환
      */
     public static GeneralCommentReadResponseDto toDto(GeneralComment generalComment) {
         return GeneralCommentReadResponseDto.builder()
-                .articleId(generalComment.getCommentId())
+                .commentId(generalComment.getCommentId())
                 .content(generalComment.getContent())
                 .parentId(generalComment.getParentId())
                 .date(generalComment.getDate())
                 .articleId(generalComment.getGeneralPost().getArticleId())
                 .nickname(generalComment.getUser().getNickname())
+                .profile(generalComment.getUser().getProfile())
                 .build();
     }
 }
