@@ -12,6 +12,7 @@ import com.example.capstone.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +64,16 @@ public class GeneralCommentService {
         GeneralComment generalComment = generalCommentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
         generalComment.updateComment(generalCommentUpdateRequestDto);
+    }
+
+    /**
+     * 일반 게시판 댓글 전체 목록 조회
+     */
+    @Transactional
+    public List<GeneralCommentReadResponseDto> getComments(Integer id) {
+        return generalCommentRepository.findByGeneralPostArticleIdOrderByCommentIdDesc(id)
+                .stream()
+                .map(GeneralCommentReadResponseDto::toDto)
+                .toList();
     }
 }

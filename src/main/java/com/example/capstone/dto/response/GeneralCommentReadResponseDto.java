@@ -25,7 +25,7 @@ public class GeneralCommentReadResponseDto {
      */
     public static GeneralCommentReadResponseDto toDto(GeneralComment generalComment) {
         return GeneralCommentReadResponseDto.builder()
-                .articleId(generalComment.getCommentId())
+                .commentId(generalComment.getCommentId())
                 .content(generalComment.getContent())
                 .parentId(generalComment.getParentId())
                 .date(generalComment.getDate())
