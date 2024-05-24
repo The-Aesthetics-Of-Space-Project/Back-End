@@ -11,12 +11,11 @@ import com.example.capstone.entity.community.contest.article.ContestLike;
 import com.example.capstone.entity.follow.Follow;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"followers","followedUser", "generalPosts"})
+@EqualsAndHashCode(exclude = {"followers", "followedUser", "generalPosts", "generalComments", "generalLikes", "scraps"})
 @Data
 @Getter
 @Setter
