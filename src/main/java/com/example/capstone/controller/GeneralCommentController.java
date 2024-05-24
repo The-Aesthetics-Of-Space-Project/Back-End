@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,6 +63,16 @@ public class GeneralCommentController {
         generalCommentService.updateComment(id, generalCommentUpdateRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK).body("댓글 수정에 성공했습니다.");
+    }
+
+    /**
+     * 일반 게시판 댓글 전체 목록 조회
+     */
+    @Tag(name = "GeneralComment Controller : 일반 게시판 댓글", description = "General Comment Controller")
+    @Operation(summary = "댓글 전체 목록 조회", description = "사용자가 댓글 전체 목록을 조회할 때 사용하는 API")
+    @GetMapping("/api/general/comment/list/{id}")
+    public List<GeneralCommentReadResponseDto> getComments(@PathVariable Integer id) {
+        return generalCommentService.getComments(id);
     }
 }
 
