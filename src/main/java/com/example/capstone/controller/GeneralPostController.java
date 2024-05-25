@@ -34,8 +34,9 @@ public class GeneralPostController {
     @Tag(name = "GeneralPost Controller : 일반 게시판 게시물", description = "General Post Controller")
     @Operation(summary = "게시물 상세 조회", description = "사용자가 게시물을 조회할 때 사용하는 API")
     @GetMapping("/api/general/post/{id}")
-    public GeneralPostDetailResponseDto getPost(@PathVariable Integer id) {
-        return generalPostService.getPost(id);
+    public GeneralPostDetailResponseDto getPost(@RequestHeader("userId") String userId, @PathVariable Integer id) {
+
+        return generalPostService.getPost(userId, id);
     }
 
     /**

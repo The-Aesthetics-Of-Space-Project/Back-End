@@ -10,12 +10,10 @@ import com.example.capstone.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class GeneralLikeService {
     private final GeneralLikeRepository generalLikeRepository;
     private final GeneralPostRepository generalPostRepository;
@@ -40,7 +38,6 @@ public class GeneralLikeService {
      */
     @Transactional
     public void unlikePost(GeneralLikeRequestDto generalLikeRequestDto) {
-        log.info(generalLikeRequestDto + "로그임");
         // 사용자와 게시물 엔티티 조회
         User user = userRepository.findById(generalLikeRequestDto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
@@ -49,14 +46,12 @@ public class GeneralLikeService {
 
         // 복합 키 생성
         GeneralLikeId id = new GeneralLikeId(user.getUserId(), generalPost.getArticleId());
-        log.info("로그 id: " + id);
 
         // 좋아요 엔티티 조회
         generalLikeRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("좋아요가 존재하지 않습니다.")
         );
 
-        log.info("로그 id: " + id);
         generalLikeRepository.deleteById(id);
     }
 }
