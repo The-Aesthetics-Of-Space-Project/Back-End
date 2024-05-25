@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,6 +21,7 @@ public class GeneralPostDetailResponseDto {
     private Integer likeCount;
     private Integer scrapCount;
     private String profile;
+    private Boolean isLiked;
 
     /**
      * GeneralPost 엔티티 클래스를 GeneralPostDetailResponseDto로 변환
