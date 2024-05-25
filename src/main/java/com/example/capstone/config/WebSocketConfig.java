@@ -25,7 +25,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/gs-guide-websocket")
-                .setAllowedOrigins("http://localhost:8080")  // 필요한 도메인만 지정
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 }
