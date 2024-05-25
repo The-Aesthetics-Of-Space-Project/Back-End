@@ -7,7 +7,6 @@ import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.service.GeneralPostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class GeneralPostController {
     private final GeneralPostService generalPostService;
 
@@ -37,7 +35,7 @@ public class GeneralPostController {
     @Operation(summary = "게시물 상세 조회", description = "사용자가 게시물을 조회할 때 사용하는 API")
     @GetMapping("/api/general/post/{id}")
     public GeneralPostDetailResponseDto getPost(@RequestHeader("userId") String userId, @PathVariable Integer id) {
-        log.info("로근데요" + userId + "이거지예" + id);
+
         return generalPostService.getPost(userId, id);
     }
 
