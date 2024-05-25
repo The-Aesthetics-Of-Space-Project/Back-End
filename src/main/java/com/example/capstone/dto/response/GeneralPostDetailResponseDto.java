@@ -22,6 +22,7 @@ public class GeneralPostDetailResponseDto {
     private Integer scrapCount;
     private String profile;
     private Boolean isLiked;
+    private Boolean isScraped;
 
     /**
      * GeneralPost 엔티티 클래스를 GeneralPostDetailResponseDto로 변환
