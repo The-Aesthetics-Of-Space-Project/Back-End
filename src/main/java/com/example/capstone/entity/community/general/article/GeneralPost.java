@@ -22,7 +22,7 @@ public class GeneralPost {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = true) // DB 테스트를 위해 임시로 false->true 변경
+    @Column(nullable = false)
     private String thumbnail;
 
     @Column(nullable = false)
