@@ -5,6 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 application.properties
+YOLOv5
+venv
+.vs
+.jython_cashe/packages
 
 ### STS ###
 .apt_generated
