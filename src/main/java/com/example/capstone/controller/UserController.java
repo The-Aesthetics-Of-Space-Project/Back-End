@@ -66,7 +66,9 @@ public class UserController {
     public byte[] getUserImage(@RequestParam String userId)throws IOException{
         InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
         log.info("이미지 조회"+userId);
-        return IOUtils.toByteArray(is);
+        byte[] image = IOUtils.toByteArray(is);
+        is.close();
+        return image;
     }
 
     /**
