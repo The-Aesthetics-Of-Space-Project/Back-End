@@ -93,11 +93,15 @@ public class CapstoneApplication {
 									"- 디자인이나 무늬가 과하거나 튀는 제품은 자제하시는 게 좋아요",
 									"- 전체적인 컬러는 밝은 색으로 가고 무겁거나 튀는 느낌은 최대한 절제! 산뜻하고 상쾌한 색상을 조합해 보세요."
 							))
-							.color(Arrays.asList("Color 5", "Color 6"))
-							.interiorImage(Arrays.asList(
+							.color(Arrays.asList(
 									"/api/interior/style/image/naturalcolor1.png",
 									"/api/interior/style/image/naturalcolor2.png",
 									"/api/interior/style/image/naturalcolor3.png"
+							))
+							.interiorImage(Arrays.asList(
+									"/api/interior/style/image/natural1.webp",
+									"/api/interior/style/image/natural2.jpg",
+									"/api/interior/style/image/natural3.jpg"
 							))
 							.build(),
 
@@ -116,9 +120,9 @@ public class CapstoneApplication {
 									"- 조명은 로맨틱한 분위기를 만드는 데 중요한 요소! 따뜻한 색상의 조명을 사용, 캔들 라이트를 활용하기!"
 							))
 							.color(Arrays.asList(
-									"/api/interior/style/image/lovely1.png",
-									"/api/interior/style/image/lovely2.png",
-									"/api/interior/style/image/lovely3.png"))
+									"/api/interior/style/image/lovelycolor1.png",
+									"/api/interior/style/image/lovelycolor2.png",
+									"/api/interior/style/image/lovelycolor3.png"))
 							.interiorImage(Arrays.asList(
 									"/api/interior/style/image/lovely1.jpg",
 									"/api/interior/style/image/lovely2.jpg",
