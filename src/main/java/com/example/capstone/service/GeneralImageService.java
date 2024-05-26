@@ -54,7 +54,8 @@ public class GeneralImageService {
     /**
      * 이미지 조회
      */
-    @Transactional public Resource getImage(Integer imageId) throws Exception {
+    @Transactional
+    public Resource getImage(Integer imageId) throws Exception {
         GeneralImage generalImage = generalImageRepository.findById(imageId)
                 .orElseThrow(() -> new IllegalArgumentException("이미지가 존재하지 않습니다."));
 
