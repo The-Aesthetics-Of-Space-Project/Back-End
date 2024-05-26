@@ -1,5 +1,6 @@
 package com.example.capstone.dto.response;
 
+import com.example.capstone.entity.community.contest.article.ContestLike;
 import com.example.capstone.entity.community.general.article.GeneralLike;
 import com.example.capstone.entity.community.general.article.Scrap;
 import lombok.AllArgsConstructor;
@@ -19,8 +20,9 @@ public class UserPostsResponseDto {
     private String profile;
     private Integer likeCount;
     private Integer articleId;
+    private String postType;
 
-    public static UserPostsResponseDto createLikesDto(GeneralLike like){
+    public static UserPostsResponseDto createGeneralLikesDto(GeneralLike like){
         return builder()
                 .title(like.getGeneralPost().getTitle())
                 .thumbnail(like.getGeneralPost().getThumbnail())
@@ -29,6 +31,20 @@ public class UserPostsResponseDto {
                 .profile(like.getGeneralPost().getUser().getProfile())
                 .likeCount(like.getGeneralPost().getLikes().size())
                 .articleId(like.getGeneralPost().getArticleId())
+                .postType("general")
+                .build();
+    }
+
+    public static UserPostsResponseDto createContestLikesDto(ContestLike like){
+        return UserPostsResponseDto.builder()
+                .title(like.getContestPost().getTitle())
+                .thumbnail(like.getContestPost().getThumbnail())
+                .userId(like.getContestPost().getUser().getUserId())
+                .nickname(like.getContestPost().getUser().getNickname())
+                .profile(like.getContestPost().getUser().getProfile())
+                .likeCount(like.getContestPost().getContestLikes().size())
+                .articleId(like.getContestPost().getArticleId())
+                .postType("contest")
                 .build();
     }
 
