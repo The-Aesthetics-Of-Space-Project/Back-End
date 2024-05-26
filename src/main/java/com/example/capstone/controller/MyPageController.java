@@ -2,8 +2,8 @@ package com.example.capstone.controller;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
-import com.example.capstone.dto.response.UserGeneralPostResponseDto;
-import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
+import com.example.capstone.dto.response.UserPostsResponseDto;
+import com.example.capstone.dto.response.contest.UserContestPostsResponseDto;
 import com.example.capstone.service.MypageService;
 import com.example.capstone.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -88,7 +88,7 @@ public class MyPageController {
      * 스크랩 목록 조회
      */
     @GetMapping("/scraps")
-    public List<UserGeneralPostResponseDto> getUsersScraps(@RequestParam String userId){
+    public List<UserPostsResponseDto> getUsersScraps(@RequestParam String userId){
         return mypageService.getUserScraps(userId);
     }
 
@@ -96,7 +96,7 @@ public class MyPageController {
      * 좋아요 목록 조회
      */
     @GetMapping("/likes")
-    public List<UserGeneralPostResponseDto> getUsersLikes(@RequestParam String userId){
+    public List<UserPostsResponseDto> getUsersLikes(@RequestParam String userId){
         return mypageService.getUserLikes(userId);
     }
 
@@ -114,7 +114,7 @@ public class MyPageController {
      * 공모전 게시물 목록 조회
      */
     @GetMapping("/contests")
-    public List<ContestPostsResponseDto> getUsersContests(@RequestParam String userId){
+    public List<UserContestPostsResponseDto> getUsersContests(@RequestParam String userId){
         return mypageService.getUserContests(userId);
     }
 
