@@ -3,6 +3,7 @@ package com.example.capstone.controller;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
 import com.example.capstone.dto.response.UserGeneralPostResponseDto;
+import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
 import com.example.capstone.service.MypageService;
 import com.example.capstone.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +29,15 @@ public class MyPageController {
 
 
 
+
+
+    @GetMapping("/follow")
+    public ResponseEntity<String> followUser(@RequestParam String userId, String followId){
+        //followUser(팔로우 한사람, 팔로우 피해자)
+        mypageService.followUser(userId,followId);
+
+        return ResponseEntity.status(HttpStatus.OK).body("팔로우 하였습니다.");
+    }
     /**
      * 팔로워 목록 조회
      */
@@ -72,6 +82,8 @@ public class MyPageController {
         return ResponseEntity.status(HttpStatus.OK).body("팔로워를 삭제하였습니다.");
     }
 
+
+
     /**
      * 스크랩 목록 조회
      */
@@ -97,6 +109,15 @@ public class MyPageController {
 
         return mypageService.getUserPosts(userId);
     }
+
+    /**
+     * 공모전 게시물 목록 조회
+     */
+    @GetMapping("/contests")
+    public List<ContestPostsResponseDto> getUsersContests(@RequestParam String userId){
+        return mypageService.getUserContests(userId);
+    }
+
 
     /**
      * 비밀번호 변경전 확인

@@ -4,7 +4,10 @@ package com.example.capstone.service;
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
 import com.example.capstone.dto.response.UserGeneralPostResponseDto;
+import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
+import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.entity.follow.FollowId;
+import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class MypageService {
+
 
     @Autowired
     private UserRepository userRepository;
@@ -34,15 +38,40 @@ public class MypageService {
     @Autowired
     private ScrapRepository scrapRepository;
 
+    @Autowired
+    private ContestPostRepository contestPostRepository;
+
+
+
+    @Transactional
+    public void followUser(String userId, String followId){
+
+
+        //팔로우 한사람
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+        //팔로우 당한사람
+        User followed = userRepository.findByUserId(followId)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+
+        //팔로우 생성중
+        //new FollowId(팔로우 당한사람, 팔로우 한사람)
+        Follow follow = Follow.builder()
+                .id(new FollowId(followId,userId))
+                .userId(followed)
+                .follower(user)
+                .build();
+
+        followRepository.save(follow);
+    }
+
 
     /**
      * 팔로워 목록 조회
      */
     @Transactional
     public List<UserFollowResponseDto> getUserFollowers(String userId) {
-
-
-
         return followRepository.findByUserId_UserId(userId)
                 .stream()
                 .map(UserFollowResponseDto::createFollwerDto)
@@ -74,6 +103,17 @@ public class MypageService {
         return generalPostRepository.findByUser_UserId(userId)
                 .stream()
                 .map(GeneralPostListResponseDto::createDto)
+                .toList();
+    }
+    /**
+     * 회원 게시물 조회
+     */
+
+    @Transactional
+    public List<ContestPostsResponseDto> getUserContests(String userId) {
+        return contestPostRepository.findByUser_UserId(userId)
+                .stream()
+                .map(ContestPostsResponseDto::createDto)
                 .toList();
     }
 
