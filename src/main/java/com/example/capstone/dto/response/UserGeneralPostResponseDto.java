@@ -13,16 +13,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserGeneralPostResponseDto {
     private String title;
+    private String nickname;
     private String userId;
     private String thumbnail;
     private String profile;
+    private Integer likeCount;
+    private Integer articleId;
 
     public static UserGeneralPostResponseDto createLikesDto(GeneralLike like){
         return builder()
                 .title(like.getGeneralPost().getTitle())
                 .thumbnail(like.getGeneralPost().getThumbnail())
                 .userId(like.getGeneralPost().getUser().getUserId())
+                .nickname(like.getGeneralPost().getUser().getNickname())
                 .profile(like.getGeneralPost().getUser().getProfile())
+                .likeCount(like.getGeneralPost().getLikes().size())
+                .articleId(like.getGeneralPost().getArticleId())
                 .build();
     }
 
@@ -31,7 +37,10 @@ public class UserGeneralPostResponseDto {
                 .title(scrap.getGeneralPost().getTitle())
                 .thumbnail(scrap.getGeneralPost().getThumbnail())
                 .userId(scrap.getGeneralPost().getUser().getUserId())
+                .nickname(scrap.getGeneralPost().getUser().getNickname())
                 .profile(scrap.getGeneralPost().getUser().getProfile())
+                .likeCount(scrap.getGeneralPost().getLikes().size())
+                .articleId(scrap.getGeneralPost().getArticleId())
                 .build();
     }
 

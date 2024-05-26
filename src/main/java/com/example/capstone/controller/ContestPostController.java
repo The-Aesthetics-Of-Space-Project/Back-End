@@ -8,11 +8,17 @@ import com.example.capstone.dto.response.contest.ContestPostDetailResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
 import com.example.capstone.service.ContestPostService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
@@ -44,17 +50,25 @@ public class ContestPostController {
      * 공모전 게시물 등록
      */
     @PostMapping("/post")
-    public ResponseEntity<String> createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto){
+    public ResponseEntity<String> createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto)throws IOException {
         contestPostService.createContestPost(contestPostCreateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("공모전 게시글을 등록하였습니다.");
+    }
+    /**
+     * 공모전 이미지 조회
+     */
+    @GetMapping(value = "/image/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getContestPostImage(@PathVariable Integer id)throws IOException{
+        InputStream is = new FileInputStream("C:/temp/image/ContestPostImage/"+id+".jpg");
+        return IOUtils.toByteArray(is);
     }
 
 
     /**
      * 공모전 게시물 삭제
      */
-    @DeleteMapping("/post")
-    public ResponseEntity<String> deleteContestPost(@RequestParam Integer id){
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<String> deleteContestPost(@PathVariable Integer id){
         contestPostService.deleteContestPost(id);
         return ResponseEntity.status(HttpStatus.OK).body("공모전 게시글을 삭제하였습니다.");
     }
@@ -62,8 +76,8 @@ public class ContestPostController {
     /**
      * 공모전 게시물 수정
      */
-    @PutMapping("/post")
-    public ResponseEntity<String> updateContestPost(@RequestParam Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto){
+    @PutMapping("/post/{id}")
+    public ResponseEntity<String> updateContestPost(@PathVariable Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto)throws IOException{
         contestPostService.updateContestPost(id,contestPostUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("공모전 게시글을 수정하였습니다.");
     }

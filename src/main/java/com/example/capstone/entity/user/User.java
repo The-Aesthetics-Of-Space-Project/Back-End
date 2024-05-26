@@ -9,6 +9,7 @@ import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
 import com.example.capstone.entity.community.contest.article.ContestLike;
 import com.example.capstone.entity.follow.Follow;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Set;
@@ -17,8 +18,6 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"followers", "followings", "generalPosts", "generalLikes", "scraps", "generalComments"})
 @Data
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 public class User {
@@ -43,6 +42,7 @@ public class User {
             fetch = FetchType.LAZY,
             orphanRemoval = true)
     private Set<GeneralPost> generalPosts;
+
 
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,

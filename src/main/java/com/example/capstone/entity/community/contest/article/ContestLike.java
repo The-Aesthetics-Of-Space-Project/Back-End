@@ -2,16 +2,24 @@ package com.example.capstone.entity.community.contest.article;
 
 import com.example.capstone.entity.user.User;
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@IdClass(ContestLikeId.class)
+@Data
+@EqualsAndHashCode(exclude = {"user", "contestPost"})
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ContestLike {
-    @Id
+    @EmbeddedId
+    ContestLikeId id;
+
+    @MapsId("contestPost")
     @ManyToOne
-    @JoinColumn(name = "contest_id")
+    @JoinColumn(name = "article_id")
     private ContestPost contestPost;
 
-    @Id
+    @MapsId("user")
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

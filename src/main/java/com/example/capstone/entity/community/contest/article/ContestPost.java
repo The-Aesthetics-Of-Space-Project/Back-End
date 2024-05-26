@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 
 
@@ -20,15 +19,14 @@ import java.util.Set;
 public class ContestPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer contestId;
+    private Integer articleId;
 
-    @Column(nullable = false, length = 20)
-    private String contest;
+
 
     @Column(nullable = false, length = 20)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String thumbnail;
 
     @Column(nullable = false)
@@ -44,7 +42,9 @@ public class ContestPost {
     @JoinColumn(name = "nickname", referencedColumnName = "nickname")
     private User user;
 
-
+    @ManyToOne
+    @JoinColumn(name = "contest_id")
+    private Contest contest;
 
     @OneToMany(mappedBy = "contestPost"
             , fetch = FetchType.LAZY
@@ -56,16 +56,11 @@ public class ContestPost {
             , orphanRemoval = true)
     private Set<ContestComment> contestComments;
 
-    @OneToMany(mappedBy = "contestPost"
-            , fetch = FetchType.LAZY
-            , orphanRemoval = true)
-    private Set<ContestScrap> contestScraps;
-
-    public void updateContestPost(ContestPostUpdateRequestDto contestPostUpdateRequestDto){
-        contest = contestPostUpdateRequestDto.getContest();
+    public ContestPost updateContestPost(ContestPostUpdateRequestDto contestPostUpdateRequestDto){
+//        contestId = contestPostUpdateRequestDto.getContest();
         title = contestPostUpdateRequestDto.getTitle();
-        thumbnail = contestPostUpdateRequestDto.getThumbnail();
         contents = contestPostUpdateRequestDto.getContents();
+        return this;
     }
 }
 
