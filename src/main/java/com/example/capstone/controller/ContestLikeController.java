@@ -23,22 +23,20 @@ public class ContestLikeController {
     private ContestLikeService contestLikeService;
 
     /**
-     * 일반 게시판 좋아요 등록
+     * 공모전 게시판 좋아요 등록
      */
-    @Tag(name = "ContestLike Controller : 공모전 게시판 좋아요", description = "Contest Like Controller")
-    @Operation(summary = "좋아요 등록", description = "사용자가 좋아요를 등록할 때 사용하는 API")
-    @PostMapping("/api/contest/like")
+    @PostMapping("/like")
     public ResponseEntity<String> likePost(@RequestBody ContestLikeRequestDto contestLikeRequestDto) {
         contestLikeService.likeContestPost(contestLikeRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("좋아요 등록에 성공했습니다.");
     }
 
     /**
-     * 일반 게시판 좋아요 취소
+     * 공모전 게시판 좋아요 취소
      */
     @Tag(name = "ContestLike Controller : 공모전 게시판 좋아요", description = "Contest Like Controller")
     @Operation(summary = "좋아요 취소", description = "사용자가 좋아요를 취소할 때 사용하는 API")
-    @PostMapping("/api/contest/unlike")
+    @PostMapping("/unlike")
     public ResponseEntity<String> unlikePost(@RequestBody ContestLikeRequestDto contestLikeRequestDto) {
         contestLikeService.unlikeContestPost(contestLikeRequestDto);
 

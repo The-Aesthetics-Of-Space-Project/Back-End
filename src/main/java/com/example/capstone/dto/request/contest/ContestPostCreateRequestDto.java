@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContestPostCreateRequestDto {
-    private String contest;
+    private Integer contestId;
     private String title;
     private MultipartFile thumbnail;
     private String contents;
@@ -22,7 +22,6 @@ public class ContestPostCreateRequestDto {
 
     public ContestPost toEntity(User user){
         return  ContestPost.builder()
-                .contest(contest)
                 .title(title)
                 .date(DateTimeUtils.currentTime())
                 .contents(contents)

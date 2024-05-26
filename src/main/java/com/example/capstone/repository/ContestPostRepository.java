@@ -9,5 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ContestPostRepository extends JpaRepository<ContestPost,Integer> {
-    List<ContestPost> findAllByOrderByContestIdDesc();
+    List<ContestPost> findAllByOrderByArticleIdDesc();
+
+
+    List<ContestPost> findByUser_UserId(String userId);
 }

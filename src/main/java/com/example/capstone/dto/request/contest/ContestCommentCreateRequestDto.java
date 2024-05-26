@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class ContestCommentCreateRequestDto {
     private String content;
     private Integer parentId;
-    private Integer contestId;
+    private Integer articleId;
     private String nickname;
 
 

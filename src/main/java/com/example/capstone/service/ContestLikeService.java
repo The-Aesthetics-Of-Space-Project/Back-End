@@ -1,12 +1,9 @@
 package com.example.capstone.service;
 
 
-import com.example.capstone.dto.request.GeneralLikeRequestDto;
 import com.example.capstone.dto.request.contest.ContestLikeRequestDto;
 import com.example.capstone.entity.community.contest.article.ContestLikeId;
 import com.example.capstone.entity.community.contest.article.ContestPost;
-import com.example.capstone.entity.community.general.article.GeneralLikeId;
-import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,7 +26,7 @@ public class ContestLikeService {
      */
     @Transactional
     public void likeContestPost(ContestLikeRequestDto contestLikeRequestDto) {
-        ContestPost contestPost = contestPostRepository.findById(contestLikeRequestDto.getContestId())
+        ContestPost contestPost = contestPostRepository.findById(contestLikeRequestDto.getArticleId())
                 .orElseThrow(() -> new EntityNotFoundException("게시물이 존재하지 않습니다."));
 
         User user = userRepository.findByUserId(contestLikeRequestDto.getUserId())
@@ -46,11 +43,11 @@ public class ContestLikeService {
         // 사용자와 게시물 엔티티 조회
         User user = userRepository.findById(contestLikeRequestDto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
-        ContestPost contestPost = contestPostRepository.findById(contestLikeRequestDto.getContestId())
+        ContestPost contestPost = contestPostRepository.findById(contestLikeRequestDto.getArticleId())
                 .orElseThrow(() -> new EntityNotFoundException("게시물이 존재하지 않습니다."));
 
         // 복합 키 생성
-        ContestLikeId id = new ContestLikeId(user.getUserId(), contestPost.getContestId());
+        ContestLikeId id = new ContestLikeId(user.getUserId(), contestPost.getArticleId());
 
         // 좋아요 엔티티 조회
         contestLikeRepository.findById(id).orElseThrow(() ->

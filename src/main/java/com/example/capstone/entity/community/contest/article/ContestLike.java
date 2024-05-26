@@ -16,7 +16,7 @@ public class ContestLike {
 
     @MapsId("contestPost")
     @ManyToOne
-    @JoinColumn(name = "contest_id")
+    @JoinColumn(name = "article_id")
     private ContestPost contestPost;
 
     @MapsId("user")

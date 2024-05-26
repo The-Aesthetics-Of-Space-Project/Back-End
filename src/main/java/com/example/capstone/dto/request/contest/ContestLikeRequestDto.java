@@ -3,9 +3,6 @@ package com.example.capstone.dto.request.contest;
 import com.example.capstone.entity.community.contest.article.ContestLike;
 import com.example.capstone.entity.community.contest.article.ContestLikeId;
 import com.example.capstone.entity.community.contest.article.ContestPost;
-import com.example.capstone.entity.community.general.article.GeneralLike;
-import com.example.capstone.entity.community.general.article.GeneralLikeId;
-import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +16,11 @@ import lombok.NoArgsConstructor;
 public class ContestLikeRequestDto {
 
     private String userId;
-    private Integer contestId;
+    private Integer articleId;
 
     public ContestLike toEntity(User user, ContestPost contestPost) {
         return ContestLike.builder()
-                .id(new ContestLikeId(user.getUserId(), contestPost.getContestId()))
+                .id(new ContestLikeId(user.getUserId(), contestPost.getArticleId()))
                 .user(user)
                 .contestPost(contestPost)
                 .build();

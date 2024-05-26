@@ -1,8 +1,6 @@
 package com.example.capstone.dto.response.contest;
 
-import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.entity.community.contest.comment.ContestComment;
-import com.example.capstone.entity.community.general.comment.GeneralComment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +27,7 @@ public class ContestCommentResponseDto {
                 .content(contestComment.getContent())
                 .parentId(contestComment.getParentId())
                 .date(contestComment.getDate())
-                .contestId(contestComment.getContestPost().getContestId())
+                .contestId(contestComment.getContestPost().getArticleId())
                 .nickname(contestComment.getUser().getNickname())
                 .build();
     }

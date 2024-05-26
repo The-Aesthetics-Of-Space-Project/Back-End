@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -12,8 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ContestPostUpdateRequestDto {
 
-    private String contest;
     private String title;
-    private String thumbnail;
+    private MultipartFile thumbnail;
     private String contents;
 }

@@ -3,12 +3,12 @@ package com.example.capstone.service;
 
 import com.example.capstone.dto.request.contest.ContestPostCreateRequestDto;
 import com.example.capstone.dto.request.contest.ContestPostUpdateRequestDto;
-import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostDetailResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
 import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.ContestPostRepository;
+import com.example.capstone.repository.ContestRepository;
 import com.example.capstone.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +31,9 @@ public class ContestPostService {
     private ContestPostRepository contestPostRepository;
 
     @Autowired
+    private ContestRepository contestRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     private final Path root = Paths.get("c:\\Temp\\image\\ContestPostImage");
@@ -41,7 +44,7 @@ public class ContestPostService {
      */
     @Transactional
     public List<ContestPostsResponseDto> getContestPosts() {
-        return contestPostRepository.findAllByOrderByContestIdDesc()
+        return contestPostRepository.findAllByOrderByArticleIdDesc()
                 .stream()
                 .map(ContestPostsResponseDto::createDto)
                 .toList();
@@ -68,17 +71,22 @@ public class ContestPostService {
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
-        String fileExt = contestPostCreateRequestDto
-                .getThumbnail()
-                .getContentType()
-                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
+//        String fileExt = contestPostCreateRequestDto
+//                .getThumbnail()
+//                .getContentType()
+//                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
 
         // DB에 저장
         ContestPost contestPost = contestPostRepository.save(contestPostCreateRequestDto.toEntity(user));
-        contestPost.setThumbnail("/api/contest/image/"+contestPost.getContestId().toString());
+
+
+
+        // 공모전 게시글 공모전 아이디, 섬네일 저장
+        contestPost.setContest(contestRepository.findById(contestPostCreateRequestDto.getContestId()).get());
+        contestPost.setThumbnail("/api/contest/image/"+contestPost.getArticleId().toString());
 
         if( contestPostCreateRequestDto.getThumbnail()!=null ) {
-            File saveFile = new File("/ContestPostImage/"+contestPost.getContestId() + ".jpg");
+            File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() +".jpg");
             contestPostCreateRequestDto
                     .getThumbnail()
                     .transferTo(saveFile);
@@ -98,10 +106,24 @@ public class ContestPostService {
      */
 
     @Transactional
-    public void updateContestPost(Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto){
-        contestPostRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."))
-                .updateContestPost(contestPostUpdateRequestDto);
+    public void updateContestPost(Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto)throws IOException{
+
+            ContestPost contestPost = contestPostRepository.findById(id)
+                    .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."))
+                    .updateContestPost(contestPostUpdateRequestDto);
+
+        String fileExt = contestPostUpdateRequestDto
+                .getThumbnail()
+                .getContentType()
+                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
+
+
+            if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
+                File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() + ".jpg");
+                contestPostUpdateRequestDto
+                        .getThumbnail()
+                        .transferTo(saveFile);
+            }
     }
 
 

@@ -29,7 +29,7 @@ public class ContestComment {
     @Column(name = "parentId")
     private Integer parentId;
     @ManyToOne
-    @JoinColumn(name = "contest_id")
+    @JoinColumn(name = "article_id")
     private ContestPost contestPost;
 
     @ManyToOne

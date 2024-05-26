@@ -3,6 +3,7 @@ package com.example.capstone.service;
 import com.example.capstone.dto.request.GeneralCommentCreateRequestDto;
 import com.example.capstone.dto.request.GeneralCommentUpdateRequestDto;
 import com.example.capstone.dto.request.contest.ContestCommentCreateRequestDto;
+import com.example.capstone.dto.request.contest.ContestCommentUpdateRequestDto;
 import com.example.capstone.dto.response.GeneralCommentReadResponseDto;
 import com.example.capstone.dto.response.contest.ContestCommentResponseDto;
 import com.example.capstone.entity.community.contest.article.ContestPost;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -36,7 +39,7 @@ public class ContestCommentService {
      */
     @Transactional
     public void createContestComment(ContestCommentCreateRequestDto contestCommentCreateRequestDto) {
-        ContestPost contestPost = contestPostRepository.findById(contestCommentCreateRequestDto.getContestId())
+        ContestPost contestPost = contestPostRepository.findById(contestCommentCreateRequestDto.getArticleId())
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
 
         User user = userRepository.findByNickname(contestCommentCreateRequestDto.getNickname())
@@ -70,10 +73,22 @@ public class ContestCommentService {
      * 일반 게시판 댓글 수정
      */
     @Transactional
-    public void updateContestComment(Integer id, String contents) {
+    public void updateContestComment(Integer id, ContestCommentUpdateRequestDto contestCommentUpdateRequestDto) {
         ContestComment contestComment = contestCommentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
-        contestComment.updateComment(contents);
+        contestComment.updateComment(contestCommentUpdateRequestDto.getContents());
+    }
+
+
+    /**
+     * 일반 게시판 댓글 전체 목록 조회
+     */
+    @Transactional
+    public List<ContestCommentResponseDto> getContestComments(Integer id) {
+        return contestCommentRepository.findByContestPost_ArticleId(id)
+                .stream()
+                .map(ContestCommentResponseDto::createDto)
+                .toList();
     }
 
 
