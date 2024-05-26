@@ -64,7 +64,7 @@ public class UserController {
      */
     @GetMapping(value = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getUserImage(@RequestParam String userId)throws IOException{
-        InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
+        InputStream is = new FileInputStream("C:/temp/profile/"+userId+".jpg");
         log.info("이미지 조회"+userId);
         byte[] image = IOUtils.toByteArray(is);
         is.close();

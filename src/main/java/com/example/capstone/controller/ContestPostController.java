@@ -41,8 +41,8 @@ public class ContestPostController {
      * 공모전 게시물 상세 조회
      */
     @GetMapping("/post/{id}")
-    public ContestPostDetailResponseDto getContestPostDetail(@PathVariable Integer id){
-        return contestPostService.getContestPostDetail(id);
+    public ContestPostDetailResponseDto getContestPostDetail(@RequestHeader("userId") String userId, @PathVariable Integer id){
+        return contestPostService.getContestPostDetail(userId,id);
     }
 
 
@@ -59,6 +59,7 @@ public class ContestPostController {
      */
     @GetMapping(value = "/image/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getContestPostImage(@PathVariable Integer id)throws IOException{
+        log.info("공모전 게시글 섬네일 조회 :"+id);
         InputStream is = new FileInputStream("C:/temp/image/ContestPostImage/"+id+".jpg");
         byte[] image = IOUtils.toByteArray(is);
         is.close();

@@ -57,11 +57,11 @@ public class UserService {
 
         String nickname = userRepository
                 .findByUserId(userId)
-                .orElseThrow()
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."))
                 .getNickname();
 
         return UserDetailsResponseDto.createDto(
-                userRepository.findByUserId(userId).orElseThrow());
+                userRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
     }
 
 
@@ -86,7 +86,7 @@ public class UserService {
 
         // 파일이 비어있지 않으면 profile/image 경로에 이미지 저장
         if( userDetailsUpdateRequestDto.getProfile()!=null ) {
-            File saveFile = new File(email + ".jpg");
+            File saveFile = new File("C:/Temp/profile/"+email + ".jpg");
             userDetailsUpdateRequestDto
                     .getProfile()
                     .transferTo(saveFile);

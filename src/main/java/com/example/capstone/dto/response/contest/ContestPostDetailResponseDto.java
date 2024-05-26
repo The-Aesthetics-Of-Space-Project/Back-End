@@ -25,6 +25,7 @@ public class ContestPostDetailResponseDto {
     private String nickname;
     private Integer likeCount;
     private Integer commentCount;
+    private boolean isLike;
 
 
     public static ContestPostDetailResponseDto createDto(ContestPost contestPost){
