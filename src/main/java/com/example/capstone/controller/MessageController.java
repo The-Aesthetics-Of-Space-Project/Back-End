@@ -5,12 +5,17 @@ import com.example.capstone.entity.chat.Chatroom;
 import com.example.capstone.entity.chat.Message;
 import com.example.capstone.repository.ChatRoomRepository;
 import com.example.capstone.repository.MessageRepository;
+import com.example.capstone.service.MessageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -28,22 +33,15 @@ public class MessageController {
     @Autowired
     private ChatRoomRepository chatRoomRepository;
 
-    // 메시지 전송시 처리
+    @Autowired
+    private MessageService messageService;
+
+    @Tag(name = "MessageController : 이미지 분석", description = "Message Controller")
+    @Operation(summary = "구독 관계 정의 및 메세지 등록", description = "사용자가 전송한 메세지를 저장 및 구독중인 페이지로 전달하는 API")
     @MessageMapping("/{roomId}")
-    @SendTo("/pub/{roomId}") // 목적지 여기로 DTO 를 보내 화면에 표시
-    public MessageDto send(MessageDto dto){
-        log.info(String.valueOf(dto));
-
-        // 채팅방 조회
-        Chatroom chatRoom = chatRoomRepository.findById(dto.getRoomid())
-                .orElseThrow(() -> new RuntimeException("채팅방을 찾을 수 없습니다."));
-
-        // 메시지 전송 로직
-        Message message = new Message(dto.getContent(), dto.getSender(), dto.getReciver());
-        message.setChatRoom(chatRoom);
-        messageRepository.save(message);
-
-        return dto;
+    @SendTo("/pub/{roomId}")
+    public MessageDto send(@DestinationVariable(value = "roomId") String roomId, @RequestBody MessageDto dto) {
+        return messageService.sendMessage(dto);
     }
-
 }
+

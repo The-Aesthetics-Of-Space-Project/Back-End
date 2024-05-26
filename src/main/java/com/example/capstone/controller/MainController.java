@@ -4,6 +4,8 @@ import com.example.capstone.dto.UserLoginDto;
 import com.example.capstone.dto.UserSignupDto;
 import com.example.capstone.repository.UserRepository;
 import com.example.capstone.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Tag(name = "MainController : 로그인 및 회원가입", description = "Main Controller")
+    @Operation(summary = "로그인 로직", description = "사용자가 로그인 할 수 있도록 하는 API")
     //로그인 페이지에서 아이디 및 비밀번호 검사
     @PostMapping("/login")
     public ResponseEntity<?> Login(@RequestBody UserLoginDto userLoginDto, Model model, HttpSession session) {
@@ -60,6 +64,8 @@ public class MainController {
         }
     }
 
+    @Tag(name = "MainController : 로그인 및 회원가입", description = "Main Controller")
+    @Operation(summary = "유저 아이디 중복 검사", description = "사용자가 중복 확인을 할 수 있도록 하는 API")
     @GetMapping("/checkUserId/{userId}")
     public ResponseEntity<Boolean> checkUserID(@PathVariable(value="userId") String userId) {
         String id = userRepository.findID(userId);
@@ -69,6 +75,8 @@ public class MainController {
         return ResponseEntity.ok(isAvailable);
     }
 
+    @Tag(name = "MainController : 로그인 및 회원가입", description = "Main Controller")
+    @Operation(summary = "닉네임 중복 검사", description = "사용자가 닉네임 중복 확인을 할 수 있도록 하는 API")
     @GetMapping("/checknickname/{nickname}")
     public ResponseEntity<Boolean> checkNickname(@PathVariable(value="nickname") String nickname) {
         boolean exists = userRepository.existsByNickname(nickname);
@@ -79,6 +87,8 @@ public class MainController {
     }
 
     // 유효성 검사 로직 Errors
+    @Tag(name = "MainController : 로그인 및 회원가입", description = "Main Controller")
+    @Operation(summary = "회원가입", description = "사용자가 회원 가입 할 수 있도록 하는 API")
     @PostMapping("/signup")
     public ResponseEntity<Map<String, Object>> execSignup(@Valid @RequestBody UserSignupDto userDto, Errors errors)throws IOException {
         Map<String, Object> response = new HashMap<>();
