@@ -105,7 +105,7 @@ public class User {
             this.nickname = userDetailsUpdateRequestDto.getNickname();
         }
         if (userDetailsUpdateRequestDto.getProfile()!=null){
-            this.profile = "http://119.198.33.129:8080/users/image?userId="+userId;
+            this.profile = "/users/image?userId="+userId;
         }
         if (userDetailsUpdateRequestDto.getPassword()!=null){
             this.password = userDetailsUpdateRequestDto.getPassword();

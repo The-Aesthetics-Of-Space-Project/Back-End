@@ -29,7 +29,7 @@ public class UserSignupDto {
                 .userId(userId)
                 .password(password)
                 .nickname(nickname)
-                .profile("http://119.198.33.129:8080/users/image?userId=default")
+                .profile("/users/image?userId=default")
                 .build();
     }
 }

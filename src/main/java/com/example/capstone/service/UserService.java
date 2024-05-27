@@ -53,15 +53,15 @@ public class UserService {
      * 유저 정보 조회
      */
     @Transactional
-    public UserDetailsResponseDto getUserDetails(String userId) {
+    public UserDetailsResponseDto getUserDetails(String nick) {
 
-        String nickname = userRepository
-                .findByUserId(userId)
-                .orElseThrow()
-                .getNickname();
+//        String nickname = userRepository
+//                .findByNickname(nick)
+//                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."))
+//                .getNickname();
 
         return UserDetailsResponseDto.createDto(
-                userRepository.findByUserId(userId).orElseThrow());
+                userRepository.findByNickname(nick).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
     }
 
 
@@ -86,7 +86,7 @@ public class UserService {
 
         // 파일이 비어있지 않으면 profile/image 경로에 이미지 저장
         if( userDetailsUpdateRequestDto.getProfile()!=null ) {
-            File saveFile = new File(email + ".jpg");
+            File saveFile = new File("C:/Temp/profile/"+email + ".jpg");
             userDetailsUpdateRequestDto
                     .getProfile()
                     .transferTo(saveFile);

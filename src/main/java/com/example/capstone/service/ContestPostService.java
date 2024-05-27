@@ -5,8 +5,10 @@ import com.example.capstone.dto.request.contest.ContestPostCreateRequestDto;
 import com.example.capstone.dto.request.contest.ContestPostUpdateRequestDto;
 import com.example.capstone.dto.response.contest.ContestPostDetailResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
+import com.example.capstone.entity.community.contest.article.ContestLikeId;
 import com.example.capstone.entity.community.contest.article.ContestPost;
 import com.example.capstone.entity.user.User;
+import com.example.capstone.repository.ContestLikeRepository;
 import com.example.capstone.repository.ContestPostRepository;
 import com.example.capstone.repository.ContestRepository;
 import com.example.capstone.repository.UserRepository;
@@ -34,13 +36,16 @@ public class ContestPostService {
     private ContestRepository contestRepository;
 
     @Autowired
+    private ContestLikeRepository contestLikeRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
-    private final Path root = Paths.get("c:\\Temp\\image\\ContestPostImage");
+    private final Path root = Paths.get("c:\\Temp\\ContestPostImage");
 
 
     /**
-     * 일반 게시물 전체 목록 조회
+     * 공모전 게시물 전체 목록 조회
      */
     @Transactional
     public List<ContestPostsResponseDto> getContestPosts() {
@@ -51,23 +56,32 @@ public class ContestPostService {
     }
 
     /**
-     * 일반 게시물 상세 조회
+     * 공모전 게시물 상세 조회
      */
     @Transactional
-    public ContestPostDetailResponseDto getContestPostDetail(Integer id){
-        return contestPostRepository.findById(id)
+    public ContestPostDetailResponseDto getContestPostDetail(String userId, Integer id){
+        ContestLikeId contestLikeIdid = new ContestLikeId(userId, id);
+        boolean isLike = !contestLikeRepository.findById(contestLikeIdid).isEmpty();
+
+        ContestPostDetailResponseDto contestPostDetailResponseDto = contestPostRepository.findById(id)
                 .map(ContestPostDetailResponseDto::createDto)
                 .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."));
+
+        contestPostDetailResponseDto.setLike(isLike);
+        return contestPostDetailResponseDto;
     }
 
     /**
-     * 일반 게시물 등록
+     * 공모전 게시물 등록
      */
     @Transactional
     public void createContestPost(ContestPostCreateRequestDto contestPostCreateRequestDto) throws IOException {
         if(!Files.exists(root)) {
             Files.createDirectories(root);
         }
+
+
+
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
@@ -86,7 +100,7 @@ public class ContestPostService {
         contestPost.setThumbnail("/api/contest/image/"+contestPost.getArticleId().toString());
 
         if( contestPostCreateRequestDto.getThumbnail()!=null ) {
-            File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() +".jpg");
+            File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
             contestPostCreateRequestDto
                     .getThumbnail()
                     .transferTo(saveFile);
@@ -94,7 +108,7 @@ public class ContestPostService {
     }
 
     /**
-     * 일반 게시물 삭제
+     * 공모전 게시물 삭제
      */
     @Transactional
     public void deleteContestPost(Integer id){
@@ -102,7 +116,7 @@ public class ContestPostService {
     }
 
     /**
-     * 일반 게시물 수정
+     * 공모전 게시물 수정
      */
 
     @Transactional
@@ -119,7 +133,7 @@ public class ContestPostService {
 
 
             if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
-                File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() + ".jpg");
+                File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
                 contestPostUpdateRequestDto
                         .getThumbnail()
                         .transferTo(saveFile);

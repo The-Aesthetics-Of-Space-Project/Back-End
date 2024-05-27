@@ -20,7 +20,7 @@ public class GeneralImageService {
     private final GeneralImageRepository generalImageRepository;
 
     //업로드 된 파일이 저장될 디렉토리 경로
-    private final Path root = Paths.get("\\GeneralPostImage");
+    private final Path root = Paths.get("C:\\Temp\\GeneralPostImage");
 
     /**
      * 이미지 파일 업로드
