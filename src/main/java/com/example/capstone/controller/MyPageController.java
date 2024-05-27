@@ -108,11 +108,18 @@ public class MyPageController {
     }
 
     /**
-     * 좋아요 목록 조회
+     * 일반 게시글 좋아요 목록 조회
      */
-    @GetMapping("/likes")
-    public List<UserPostsResponseDto> getUsersLikes(@RequestParam String userId){
-        return mypageService.getUserLikes(userId);
+    @GetMapping("/likes/general")
+    public List<UserPostsResponseDto> getUserGeneralLikes(@RequestParam String userId){
+        return mypageService.getUserGeneralLikes(userId);
+    }
+    /**
+     * 공모전 좋아요 목록 조회
+     */
+    @GetMapping("/likes/contest")
+    public List<UserPostsResponseDto> getUserContestLikes(@RequestParam String userId){
+        return mypageService.getUserContestLikes(userId);
     }
 
     /**

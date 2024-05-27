@@ -162,24 +162,29 @@ public class MypageService {
 
 
     /**
-     * 회원 좋아요 목록 조회
+     * 회원 일반 게시글 좋아요 목록 조회
      */
 
-    public List<UserPostsResponseDto> getUserLikes(String userId) {
+    public List<UserPostsResponseDto> getUserGeneralLikes(String userId) {
 
-        List<UserPostsResponseDto> dtoList = new ArrayList<>();
 
-        dtoList.addAll(generalLikeRepository.findByUser_UserId(userId)
+        return generalLikeRepository.findByUser_UserId(userId)
                 .stream()
                 .map(UserPostsResponseDto::createGeneralLikesDto)
-                .toList());
+                .toList();
+    }
 
-        dtoList.addAll(contestLikeRepository.findByUser_UserId(userId)
+    /**
+     * 회원 공모전 좋아요 목록 조회
+     */
+
+    public List<UserPostsResponseDto> getUserContestLikes(String userId) {
+
+
+        return contestLikeRepository.findByUser_UserId(userId)
                 .stream()
                 .map(UserPostsResponseDto::createContestLikesDto)
-                .toList());
-
-        return dtoList;
+                .toList();
     }
 
     /**
