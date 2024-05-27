@@ -79,6 +79,9 @@ public class ContestPostService {
         if(!Files.exists(root)) {
             Files.createDirectories(root);
         }
+
+
+
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
@@ -97,7 +100,7 @@ public class ContestPostService {
         contestPost.setThumbnail("/api/contest/image/"+contestPost.getArticleId().toString());
 
         if( contestPostCreateRequestDto.getThumbnail()!=null ) {
-            File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() +".jpg");
+            File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
             contestPostCreateRequestDto
                     .getThumbnail()
                     .transferTo(saveFile);
@@ -130,7 +133,7 @@ public class ContestPostService {
 
 
             if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
-                File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() + ".jpg");
+                File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
                 contestPostUpdateRequestDto
                         .getThumbnail()
                         .transferTo(saveFile);
