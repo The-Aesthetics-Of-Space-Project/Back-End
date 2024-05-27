@@ -15,6 +15,8 @@ public class UserDetailsResponseDto {
 
     private String nickname;
 
+    private String userId;
+
     // 유저 팔로워 ( 사용자를 팔로우 하는 사람의 수 )
     private Integer follower;
 
@@ -30,6 +32,7 @@ public class UserDetailsResponseDto {
         return UserDetailsResponseDto.builder()
                 .profile(user.getProfile())
                 .nickname(user.getNickname())
+                .userId(user.getUserId())
                 .profile(user.getProfile())
                 .follower(user.getFollowers().size())
                 .following(user.getFollowings().size())
