@@ -1,6 +1,5 @@
 package com.example.capstone.repository;
 
-import com.example.capstone.entity.community.general.article.GeneralPost;
 import com.example.capstone.entity.community.general.article.Scrap;
 import com.example.capstone.entity.community.general.article.ScrapId;
 import org.springframework.data.jpa.repository.JpaRepository;

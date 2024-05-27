@@ -1,8 +1,6 @@
 package com.example.capstone.controller;
 
 import com.example.capstone.dto.MessageDto;
-import com.example.capstone.entity.chat.Chatroom;
-import com.example.capstone.entity.chat.Message;
 import com.example.capstone.repository.ChatRoomRepository;
 import com.example.capstone.repository.MessageRepository;
 import com.example.capstone.service.MessageService;
@@ -14,9 +12,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /*
@@ -44,4 +40,3 @@ public class MessageController {
         return messageService.sendMessage(dto);
     }
 }
-
