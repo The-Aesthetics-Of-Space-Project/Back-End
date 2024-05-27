@@ -9,6 +9,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Chatroom {
     @Id
     private String roomid;
