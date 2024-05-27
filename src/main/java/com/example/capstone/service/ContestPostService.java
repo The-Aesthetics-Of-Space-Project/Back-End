@@ -86,7 +86,7 @@ public class ContestPostService {
         contestPost.setThumbnail("/api/contest/image/"+contestPost.getArticleId().toString());
 
         if( contestPostCreateRequestDto.getThumbnail()!=null ) {
-            File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() +".jpg");
+            File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
             contestPostCreateRequestDto
                     .getThumbnail()
                     .transferTo(saveFile);
@@ -119,7 +119,7 @@ public class ContestPostService {
 
 
             if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
-                File saveFile = new File("/ContestPostImage/"+contestPost.getArticleId() + ".jpg");
+                File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
                 contestPostUpdateRequestDto
                         .getThumbnail()
                         .transferTo(saveFile);

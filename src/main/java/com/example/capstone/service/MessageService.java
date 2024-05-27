@@ -5,6 +5,7 @@ import com.example.capstone.entity.chat.Chatroom;
 import com.example.capstone.entity.chat.Message;
 import com.example.capstone.repository.ChatRoomRepository;
 import com.example.capstone.repository.MessageRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class MessageService {
     /*
      * 메세지 저장
      **/
+    @Transactional
     public MessageDto sendMessage(MessageDto dto){
         log.info("Received MessageDto: " + dto);
 
