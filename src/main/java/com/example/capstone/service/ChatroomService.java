@@ -3,9 +3,11 @@ package com.example.capstone.service;
 import com.example.capstone.dto.ChatRoomDto;
 import com.example.capstone.entity.chat.Chatroom;
 import com.example.capstone.entity.chat.Message;
+import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.ChatRoomRepository;
 import com.example.capstone.repository.MessageRepository;
 import com.example.capstone.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,13 @@ public class ChatroomService {
     MessageRepository messageRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    private String getRoomId(String userNickname, String partnerNickname) {
+    /*
+     * RoomId 닉네임, 닉네임으로 읽어들이기
+     */
+    @Transactional
+    public String getRoomId(String userNickname, String partnerNickname) {
         log.info("userNickname : {}, partnerNickname : {} " ,userNickname,partnerNickname );
         String roomId = chatRoomRepository.findroomid(userNickname, partnerNickname);
         if (roomId == null) {
@@ -48,7 +54,8 @@ public class ChatroomService {
     /*
      *  채팅방 생성
      * */
-    private String createNewRoom(String sessionId, String id) {
+    @Transactional
+    public String createNewRoom(String sessionId, String id) {
         ChatRoomDto chatroomdto = new ChatRoomDto();
         chatroomdto.setPerson1(sessionId);
         chatroomdto.setPerson2(id);
@@ -65,6 +72,7 @@ public class ChatroomService {
     /*
      *  대화 상대 모두 출력
      * */
+    @Transactional
     public Map<String, Object> getChatPartners(String id) {
         String nickname = userRepository.findNickname(id);
         List<String> test = chatRoomRepository.findPerson(nickname);
@@ -80,6 +88,7 @@ public class ChatroomService {
     /*
      *  채팅 내용 모두 출력
      * */
+    @Transactional
     public Set<Message> getChatList(String partner, String userid){
         String nickname = userRepository.findNickname(userid);
         String roomId = getRoomId(nickname, partner);
@@ -107,8 +116,9 @@ public class ChatroomService {
     }
 
     /*
-     *  RoomId 읽기
+     *  RoomId 닉네임, 아이디로 읽어들이기
      * */
+    @Transactional
     public String getRoom(String partner,String userid){
         log.info("chat_room. partner : {}, userid : {}", partner,userid);
         String nickname =userRepository.findNickname(userid);
@@ -122,9 +132,10 @@ public class ChatroomService {
     /*
     *  채팅 시작하기
     * */
+    @Transactional
     public String createChat(String id){
-        String nickname =userRepository.findNickname(id);
-        String nickname2 =userRepository.findNickname("whswls@gmail.com");
+        String nickname = userRepository.findNickname(id);
+        String nickname2 = userRepository.findNickname("jerry6475@naver.com");
 
         return getRoomId(nickname,nickname2);
     }

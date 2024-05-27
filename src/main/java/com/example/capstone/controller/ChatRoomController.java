@@ -54,6 +54,7 @@ public class ChatRoomController {
     @ResponseBody
     @GetMapping("/chat/{id}")
     public String test(@PathVariable(value = "id") String id){
+        log.info("뭐임?");
         return chatroomService.createChat(id);
     }
 

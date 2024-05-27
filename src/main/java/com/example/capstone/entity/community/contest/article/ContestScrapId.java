@@ -1,6 +1,5 @@
 package com.example.capstone.entity.community.contest.article;
 
-import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
