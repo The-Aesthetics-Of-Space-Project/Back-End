@@ -1,5 +1,6 @@
 package com.example.capstone.dto.response;
 
+import com.example.capstone.entity.community.contest.article.ContestLike;
 import com.example.capstone.entity.community.general.article.GeneralLike;
 import com.example.capstone.entity.community.general.article.Scrap;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserGeneralPostResponseDto {
+public class UserPostsResponseDto {
     private String title;
     private String nickname;
     private String userId;
@@ -19,8 +20,9 @@ public class UserGeneralPostResponseDto {
     private String profile;
     private Integer likeCount;
     private Integer articleId;
+    private String postType;
 
-    public static UserGeneralPostResponseDto createLikesDto(GeneralLike like){
+    public static UserPostsResponseDto createGeneralLikesDto(GeneralLike like){
         return builder()
                 .title(like.getGeneralPost().getTitle())
                 .thumbnail(like.getGeneralPost().getThumbnail())
@@ -29,10 +31,24 @@ public class UserGeneralPostResponseDto {
                 .profile(like.getGeneralPost().getUser().getProfile())
                 .likeCount(like.getGeneralPost().getLikes().size())
                 .articleId(like.getGeneralPost().getArticleId())
+                .postType("general")
                 .build();
     }
 
-    public static UserGeneralPostResponseDto createScrapsDto(Scrap scrap){
+    public static UserPostsResponseDto createContestLikesDto(ContestLike like){
+        return UserPostsResponseDto.builder()
+                .title(like.getContestPost().getTitle())
+                .thumbnail(like.getContestPost().getThumbnail())
+                .userId(like.getContestPost().getUser().getUserId())
+                .nickname(like.getContestPost().getUser().getNickname())
+                .profile(like.getContestPost().getUser().getProfile())
+                .likeCount(like.getContestPost().getContestLikes().size())
+                .articleId(like.getContestPost().getArticleId())
+                .postType("contest")
+                .build();
+    }
+
+    public static UserPostsResponseDto createScrapsDto(Scrap scrap){
         return builder()
                 .title(scrap.getGeneralPost().getTitle())
                 .thumbnail(scrap.getGeneralPost().getThumbnail())

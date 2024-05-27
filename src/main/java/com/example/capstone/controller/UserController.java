@@ -37,8 +37,8 @@ public class UserController {
      * 회원 정보 조회
      */
     @GetMapping("/details")
-    public UserDetailsResponseDto getUserDetails(@RequestParam String userId) throws IOException{
-        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(userId);
+    public UserDetailsResponseDto getUserDetails(@RequestParam String nick) throws IOException{
+        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(nick);
         return userDetailsResponseDto;
     }
 
@@ -64,9 +64,11 @@ public class UserController {
      */
     @GetMapping(value = "/image",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getUserImage(@RequestParam String userId)throws IOException{
-        InputStream is = new FileInputStream("C:/profile/image/"+userId+".jpg");
+        InputStream is = new FileInputStream("C:/temp/profile/"+userId+".jpg");
         log.info("이미지 조회"+userId);
-        return IOUtils.toByteArray(is);
+        byte[] image = IOUtils.toByteArray(is);
+        is.close();
+        return image;
     }
 
     /**

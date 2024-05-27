@@ -2,8 +2,8 @@ package com.example.capstone.controller;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
-import com.example.capstone.dto.response.UserGeneralPostResponseDto;
-import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
+import com.example.capstone.dto.response.UserPostsResponseDto;
+import com.example.capstone.dto.response.contest.UserContestPostsResponseDto;
 import com.example.capstone.service.MypageService;
 import com.example.capstone.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +30,9 @@ public class MyPageController {
 
 
 
-
+    /**
+     * 팔로우
+     */
     @GetMapping("/follow")
     public ResponseEntity<String> followUser(@RequestParam String userId, String followId){
         //followUser(팔로우 한사람, 팔로우 피해자)
@@ -38,6 +40,19 @@ public class MyPageController {
 
         return ResponseEntity.status(HttpStatus.OK).body("팔로우 하였습니다.");
     }
+
+    /**
+     * 팔로우 여부 확인
+     */
+    @GetMapping("/isfollow")
+    public boolean getIsFollow(@RequestParam String other,String user){
+        //isFollow(팔로우 당한사람:상대방, 팔로우 한사람:나)
+        return mypageService.isFollow(other,user);
+    }
+
+
+
+
     /**
      * 팔로워 목록 조회
      */
@@ -88,7 +103,7 @@ public class MyPageController {
      * 스크랩 목록 조회
      */
     @GetMapping("/scraps")
-    public List<UserGeneralPostResponseDto> getUsersScraps(@RequestParam String userId){
+    public List<UserPostsResponseDto> getUsersScraps(@RequestParam String userId){
         return mypageService.getUserScraps(userId);
     }
 
@@ -96,7 +111,7 @@ public class MyPageController {
      * 좋아요 목록 조회
      */
     @GetMapping("/likes")
-    public List<UserGeneralPostResponseDto> getUsersLikes(@RequestParam String userId){
+    public List<UserPostsResponseDto> getUsersLikes(@RequestParam String userId){
         return mypageService.getUserLikes(userId);
     }
 
@@ -114,27 +129,27 @@ public class MyPageController {
      * 공모전 게시물 목록 조회
      */
     @GetMapping("/contests")
-    public List<ContestPostsResponseDto> getUsersContests(@RequestParam String userId){
+    public List<UserContestPostsResponseDto> getUsersContests(@RequestParam String userId){
         return mypageService.getUserContests(userId);
     }
 
 
-    /**
-     * 비밀번호 변경전 확인
-     */
-    @PutMapping("/check_pass")
-    public boolean checkUserPass(@RequestParam String userId, String password){
-        return userService.checkPass(userId,password);
-    }
-
-    /**
-     * 비밀번호 변경
-     */
-    @PutMapping("/update_pass")
-    public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
-        userService.updateUserPass(userId,password);
-        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
-    }
+//    /**
+//     * 비밀번호 변경전 확인
+//     */
+//    @PutMapping("/users/check_pass")
+//    public boolean checkUserPass(@RequestParam String userId, String password){
+//        return userService.checkPass(userId,password);
+//    }
+//
+//    /**
+//     * 비밀번호 변경
+//     */
+//    @PutMapping("/users/update_pass")
+//    public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
+//        userService.updateUserPass(userId,password);
+//        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
+//    }
 
 
 }

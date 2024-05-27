@@ -3,8 +3,8 @@ package com.example.capstone.service;
 
 import com.example.capstone.dto.response.GeneralPostListResponseDto;
 import com.example.capstone.dto.response.UserFollowResponseDto;
-import com.example.capstone.dto.response.UserGeneralPostResponseDto;
-import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
+import com.example.capstone.dto.response.UserPostsResponseDto;
+import com.example.capstone.dto.response.contest.UserContestPostsResponseDto;
 import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.entity.follow.FollowId;
 import com.example.capstone.entity.user.User;
@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +42,15 @@ public class MypageService {
     @Autowired
     private ContestPostRepository contestPostRepository;
 
+    @Autowired
+    private ContestLikeRepository contestLikeRepository;
 
+
+    /**
+     * 팔로우
+     * @param userId
+     * @param followId
+     */
 
     @Transactional
     public void followUser(String userId, String followId){
@@ -64,6 +73,29 @@ public class MypageService {
                 .build();
 
         followRepository.save(follow);
+    }
+    /**
+     * 팔로우 여부 확인
+     */
+
+    @Transactional
+    public boolean isFollow(String otherNick, String userNikc){
+
+        User other = userRepository.findByNickname(otherNick)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+        User user = userRepository.findByNickname(userNikc)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+        String otherId = other.getUserId();
+        String userId = user.getUserId();
+
+
+        //팔로우 생성중
+        //new FollowId(팔로우 당한사람, 팔로우 한사람)
+        FollowId id = new FollowId(otherId,userId);
+
+        return !followRepository.findById(id).isEmpty();
     }
 
 
@@ -110,10 +142,10 @@ public class MypageService {
      */
 
     @Transactional
-    public List<ContestPostsResponseDto> getUserContests(String userId) {
+    public List<UserContestPostsResponseDto> getUserContests(String userId) {
         return contestPostRepository.findByUser_UserId(userId)
                 .stream()
-                .map(ContestPostsResponseDto::createDto)
+                .map(UserContestPostsResponseDto::createDto)
                 .toList();
     }
 
@@ -121,10 +153,10 @@ public class MypageService {
      * 스크랩 목록 조회
      */
     @Transactional
-    public List<UserGeneralPostResponseDto> getUserScraps(String userId){
+    public List<UserPostsResponseDto> getUserScraps(String userId){
         return scrapRepository.findByUser_UserId(userId)
                 .stream()
-                .map(UserGeneralPostResponseDto::createScrapsDto)
+                .map(UserPostsResponseDto::createScrapsDto)
                 .toList();
     }
 
@@ -133,11 +165,21 @@ public class MypageService {
      * 회원 좋아요 목록 조회
      */
 
-    public List<UserGeneralPostResponseDto> getUserLikes(String userId) {
-        return generalLikeRepository.findByUser_UserId(userId)
+    public List<UserPostsResponseDto> getUserLikes(String userId) {
+
+        List<UserPostsResponseDto> dtoList = new ArrayList<>();
+
+        dtoList.addAll(generalLikeRepository.findByUser_UserId(userId)
                 .stream()
-                .map(UserGeneralPostResponseDto::createLikesDto)
-                .toList();
+                .map(UserPostsResponseDto::createGeneralLikesDto)
+                .toList());
+
+        dtoList.addAll(contestLikeRepository.findByUser_UserId(userId)
+                .stream()
+                .map(UserPostsResponseDto::createContestLikesDto)
+                .toList());
+
+        return dtoList;
     }
 
     /**
