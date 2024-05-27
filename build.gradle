@@ -18,8 +18,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'junit:junit:4.13.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'junit:junit:4.13.1'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.1'
 	compileOnly 'org.projectlombok:lombok'
@@ -34,6 +34,7 @@ dependencies {
 	implementation group: 'ai.djl.pytorch', name: 'pytorch-jni', version: '2.0.1-0.23.0'
 	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {

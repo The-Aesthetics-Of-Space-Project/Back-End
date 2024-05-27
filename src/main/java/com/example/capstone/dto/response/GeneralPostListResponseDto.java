@@ -2,7 +2,6 @@ package com.example.capstone.dto.response;
 
 import com.example.capstone.entity.community.general.article.GeneralPost;
 import lombok.*;
-import java.sql.Blob;
 
 @Data
 @Builder

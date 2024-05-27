@@ -7,14 +7,11 @@ import com.example.capstone.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 
@@ -23,9 +20,6 @@ import com.example.capstone.dto.UserSignupDto;
 import com.example.capstone.entity.user.User;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
 
 
 @Service
