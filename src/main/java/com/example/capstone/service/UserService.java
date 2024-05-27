@@ -53,15 +53,15 @@ public class UserService {
      * 유저 정보 조회
      */
     @Transactional
-    public UserDetailsResponseDto getUserDetails(String userId) {
+    public UserDetailsResponseDto getUserDetails(String nick) {
 
-        String nickname = userRepository
-                .findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."))
-                .getNickname();
+//        String nickname = userRepository
+//                .findByNickname(nick)
+//                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."))
+//                .getNickname();
 
         return UserDetailsResponseDto.createDto(
-                userRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
+                userRepository.findByNickname(nick).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
     }
 
 

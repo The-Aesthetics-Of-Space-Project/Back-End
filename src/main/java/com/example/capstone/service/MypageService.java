@@ -46,6 +46,11 @@ public class MypageService {
     private ContestLikeRepository contestLikeRepository;
 
 
+    /**
+     * 팔로우
+     * @param userId
+     * @param followId
+     */
 
     @Transactional
     public void followUser(String userId, String followId){
@@ -68,6 +73,29 @@ public class MypageService {
                 .build();
 
         followRepository.save(follow);
+    }
+    /**
+     * 팔로우 여부 확인
+     */
+
+    @Transactional
+    public boolean isFollow(String otherNick, String userNikc){
+
+        User other = userRepository.findByNickname(otherNick)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+        User user = userRepository.findByNickname(userNikc)
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+
+        String otherId = other.getUserId();
+        String userId = user.getUserId();
+
+
+        //팔로우 생성중
+        //new FollowId(팔로우 당한사람, 팔로우 한사람)
+        FollowId id = new FollowId(otherId,userId);
+
+        return !followRepository.findById(id).isEmpty();
     }
 
 

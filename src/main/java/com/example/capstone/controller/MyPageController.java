@@ -30,7 +30,9 @@ public class MyPageController {
 
 
 
-
+    /**
+     * 팔로우
+     */
     @GetMapping("/follow")
     public ResponseEntity<String> followUser(@RequestParam String userId, String followId){
         //followUser(팔로우 한사람, 팔로우 피해자)
@@ -38,6 +40,19 @@ public class MyPageController {
 
         return ResponseEntity.status(HttpStatus.OK).body("팔로우 하였습니다.");
     }
+
+    /**
+     * 팔로우 여부 확인
+     */
+    @GetMapping("/isfollow")
+    public boolean getIsFollow(@RequestParam String other,String user){
+        //isFollow(팔로우 당한사람:상대방, 팔로우 한사람:나)
+        return mypageService.isFollow(other,user);
+    }
+
+
+
+
     /**
      * 팔로워 목록 조회
      */
@@ -119,22 +134,22 @@ public class MyPageController {
     }
 
 
-    /**
-     * 비밀번호 변경전 확인
-     */
-    @PutMapping("/check_pass")
-    public boolean checkUserPass(@RequestParam String userId, String password){
-        return userService.checkPass(userId,password);
-    }
-
-    /**
-     * 비밀번호 변경
-     */
-    @PutMapping("/update_pass")
-    public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
-        userService.updateUserPass(userId,password);
-        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
-    }
+//    /**
+//     * 비밀번호 변경전 확인
+//     */
+//    @PutMapping("/users/check_pass")
+//    public boolean checkUserPass(@RequestParam String userId, String password){
+//        return userService.checkPass(userId,password);
+//    }
+//
+//    /**
+//     * 비밀번호 변경
+//     */
+//    @PutMapping("/users/update_pass")
+//    public ResponseEntity<String> updateUserPass(@RequestParam String userId, String password){
+//        userService.updateUserPass(userId,password);
+//        return ResponseEntity.status(HttpStatus.OK).body("비밀번호 변경이 완료되었습니다.");
+//    }
 
 
 }

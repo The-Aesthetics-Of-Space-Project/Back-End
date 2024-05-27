@@ -37,8 +37,8 @@ public class UserController {
      * 회원 정보 조회
      */
     @GetMapping("/details")
-    public UserDetailsResponseDto getUserDetails(@RequestParam String userId) throws IOException{
-        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(userId);
+    public UserDetailsResponseDto getUserDetails(@RequestParam String nick) throws IOException{
+        UserDetailsResponseDto userDetailsResponseDto = userService.getUserDetails(nick);
         return userDetailsResponseDto;
     }
 
