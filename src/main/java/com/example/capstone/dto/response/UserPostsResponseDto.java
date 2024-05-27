@@ -20,7 +20,6 @@ public class UserPostsResponseDto {
     private String profile;
     private Integer likeCount;
     private Integer articleId;
-    private String postType;
 
     public static UserPostsResponseDto createGeneralLikesDto(GeneralLike like){
         return builder()
@@ -31,7 +30,6 @@ public class UserPostsResponseDto {
                 .profile(like.getGeneralPost().getUser().getProfile())
                 .likeCount(like.getGeneralPost().getLikes().size())
                 .articleId(like.getGeneralPost().getArticleId())
-                .postType("general")
                 .build();
     }
 
@@ -44,7 +42,6 @@ public class UserPostsResponseDto {
                 .profile(like.getContestPost().getUser().getProfile())
                 .likeCount(like.getContestPost().getContestLikes().size())
                 .articleId(like.getContestPost().getArticleId())
-                .postType("contest")
                 .build();
     }
 

@@ -60,7 +60,7 @@ public class ContestPostController {
     @GetMapping(value = "/image/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getContestPostImage(@PathVariable Integer id)throws IOException{
         log.info("공모전 게시글 섬네일 조회 :"+id);
-        InputStream is = new FileInputStream("C:/temp/image/ContestPostImage/"+id+".jpg");
+        InputStream is = new FileInputStream("C:/temp/ContestPostImage/"+id+".jpg");
         byte[] image = IOUtils.toByteArray(is);
         is.close();
         return image;
