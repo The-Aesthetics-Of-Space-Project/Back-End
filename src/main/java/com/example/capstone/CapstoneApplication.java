@@ -30,7 +30,7 @@ public class CapstoneApplication {
 			List<InteriorStyle> defaultStyles = Arrays.asList(
 					InteriorStyle.builder()
 							.styleId(1) // 수동으로 할당
-							.style("모던")
+							.style("모던/Modern")
 							.about(Arrays.asList(
 									"- 복잡하고 어지러운건 딱 질색, 심플한 기본이 최고!",
 									"- 특정한 스타일에 얽매이지 않고, 간결하면서 실용성을 강조하시는 군요!",
@@ -56,7 +56,7 @@ public class CapstoneApplication {
 
 					InteriorStyle.builder()
 							.styleId(2) // 수동으로 할당
-							.style("미니멀 & 심플")
+							.style("미니멀 & 심플/Minimal & Simple")
 							.about(Arrays.asList(
 									"- 물질적인 소유욕과 집착을 버리고 내면의 평화와 행복을 중시하시는 군요.",
 									"- 빈 공간에서 느껴지는 여유로움, 그 즐거움을 아는 미니멀리스트!",
@@ -81,7 +81,7 @@ public class CapstoneApplication {
 
 					InteriorStyle.builder()
 							.styleId(3) // 수동으로 할당
-							.style("내추럴")
+							.style("내추럴/Natural")
 							.about(Arrays.asList(
 									"- 나무, 흙, 가죽처럼 자연에서 얻을 수 있는 자연친화적 소재를 선호해요.",
 									"- 인위적으로 가공된 느낌은 NO! 소재의 거친 질감 그대로 YES!",
@@ -107,7 +107,7 @@ public class CapstoneApplication {
 
 					InteriorStyle.builder()
 							.styleId(4) // 수동으로 할당
-							.style("러블리 & 로맨틱")
+							.style("러블리 & 로맨틱/Lovely & Romantic")
 							.about(Arrays.asList(
 									"- 로맨틱하고 우아한 스타일을 좋아하시는군요!",
 									"- 다양한 색상과 패턴을 조화롭게 사용하는 것을 선호하시네요.",
@@ -132,7 +132,7 @@ public class CapstoneApplication {
 
 					InteriorStyle.builder()
 							.styleId(5) // 수동으로 할당
-							.style("빈티지 & 레트로")
+							.style("빈티지 & 레트로/Vintage & Retro")
 							.about(Arrays.asList(
 									"- 고전적이고 우아한 분위기를 좋아하시는군요!",
 									"- 시간의 흐름을 담은 소품과 가구를 선호하시는 것 같아요.",
