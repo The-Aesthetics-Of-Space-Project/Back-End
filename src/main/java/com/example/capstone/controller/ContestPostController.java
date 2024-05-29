@@ -3,6 +3,7 @@ package com.example.capstone.controller;
 
 
 import com.example.capstone.dto.request.contest.ContestPostCreateRequestDto;
+import com.example.capstone.dto.request.contest.ContestPostDetailRequestDto;
 import com.example.capstone.dto.request.contest.ContestPostUpdateRequestDto;
 import com.example.capstone.dto.response.contest.ContestPostDetailResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
@@ -40,9 +41,9 @@ public class ContestPostController {
     /**
      * 공모전 게시물 상세 조회
      */
-    @GetMapping("/post/{id}")
-    public ContestPostDetailResponseDto getContestPostDetail(@RequestHeader("userId") String userId, @PathVariable Integer id){
-        return contestPostService.getContestPostDetail(userId,id);
+    @PostMapping("/post/{id}")
+    public ContestPostDetailResponseDto getContestPostDetail(@RequestBody ContestPostDetailRequestDto contestPostDetailRequestDto, @PathVariable Integer id){
+        return contestPostService.getContestPostDetail(contestPostDetailRequestDto,id);
     }
 
 
@@ -81,6 +82,7 @@ public class ContestPostController {
      */
     @PutMapping("/post/{id}")
     public ResponseEntity<String> updateContestPost(@PathVariable Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto)throws IOException{
+        log.info("ㄱㅔ시물 수정 :"+contestPostUpdateRequestDto.toString());
         contestPostService.updateContestPost(id,contestPostUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("공모전 게시글을 수정하였습니다.");
     }

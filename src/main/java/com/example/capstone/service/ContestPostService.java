@@ -2,6 +2,7 @@ package com.example.capstone.service;
 
 
 import com.example.capstone.dto.request.contest.ContestPostCreateRequestDto;
+import com.example.capstone.dto.request.contest.ContestPostDetailRequestDto;
 import com.example.capstone.dto.request.contest.ContestPostUpdateRequestDto;
 import com.example.capstone.dto.response.contest.ContestPostDetailResponseDto;
 import com.example.capstone.dto.response.contest.ContestPostsResponseDto;
@@ -59,15 +60,23 @@ public class ContestPostService {
      * 공모전 게시물 상세 조회
      */
     @Transactional
-    public ContestPostDetailResponseDto getContestPostDetail(String userId, Integer id){
-        ContestLikeId contestLikeIdid = new ContestLikeId(userId, id);
-        boolean isLike = !contestLikeRepository.findById(contestLikeIdid).isEmpty();
+    public ContestPostDetailResponseDto getContestPostDetail(ContestPostDetailRequestDto contestPostDetailRequestDto, Integer id){
+        String userId = contestPostDetailRequestDto.getUserId();
 
         ContestPostDetailResponseDto contestPostDetailResponseDto = contestPostRepository.findById(id)
                 .map(ContestPostDetailResponseDto::createDto)
                 .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."));
 
-        contestPostDetailResponseDto.setLike(isLike);
+        if(!(userId==null)){
+            ContestLikeId contestLikeIdid = new ContestLikeId(userId, id);
+            boolean isLike = !contestLikeRepository.findById(contestLikeIdid).isEmpty();
+            contestPostDetailResponseDto.setLike(isLike);
+
+        }
+        else{
+            contestPostDetailResponseDto.setLike(false);
+        }
+
         return contestPostDetailResponseDto;
     }
 
@@ -85,11 +94,6 @@ public class ContestPostService {
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
-//        String fileExt = contestPostCreateRequestDto
-//                .getThumbnail()
-//                .getContentType()
-//                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
-
         // DB에 저장
         ContestPost contestPost = contestPostRepository.save(contestPostCreateRequestDto.toEntity(user));
 
@@ -97,7 +101,7 @@ public class ContestPostService {
 
         // 공모전 게시글 공모전 아이디, 섬네일 저장
         contestPost.setContest(contestRepository.findById(contestPostCreateRequestDto.getContestId()).get());
-        contestPost.setThumbnail("/api/contest/image/"+contestPost.getArticleId().toString());
+        contestPost.setThumbnail("http://jerry6475.iptime.org:20000/api/contest/image/"+contestPost.getArticleId().toString());
 
         if( contestPostCreateRequestDto.getThumbnail()!=null ) {
             File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
@@ -126,11 +130,7 @@ public class ContestPostService {
                     .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."))
                     .updateContestPost(contestPostUpdateRequestDto);
 
-        String fileExt = contestPostUpdateRequestDto
-                .getThumbnail()
-                .getContentType()
-                .split("/")[1]; // 확장명 추출 image/png -> ["image", "png"]
-
+//            contestPost.updateContestPost(contestPostUpdateRequestDto);
 
             if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
                 File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
