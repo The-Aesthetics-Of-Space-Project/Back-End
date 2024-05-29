@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"followers", "followings", "generalPosts", "generalLikes", "scraps", "generalComments"})
+@EqualsAndHashCode(exclude = {"followers", "followings", "generalPosts", "generalLikes", "scraps", "generalComments","contestPosts","contestLikes","contestComments"})
 @Data
 @Builder
 @AllArgsConstructor
@@ -105,7 +105,7 @@ public class User {
             this.nickname = userDetailsUpdateRequestDto.getNickname();
         }
         if (userDetailsUpdateRequestDto.getProfile()!=null){
-            this.profile = "/users/image?userId="+userId;
+            this.profile = "http://jerry6475.iptime.org:20000/users/image?userId="+userId;
         }
         if (userDetailsUpdateRequestDto.getPassword()!=null){
             this.password = userDetailsUpdateRequestDto.getPassword();

@@ -29,7 +29,7 @@ public class UserSignupDto {
                 .userId(userId)
                 .password(password)
                 .nickname(nickname)
-                .profile("/users/image?userId=default")
+                .profile("http://jerry6475.iptime.org:20000/users/image?userId=default")
                 .build();
     }
 }
