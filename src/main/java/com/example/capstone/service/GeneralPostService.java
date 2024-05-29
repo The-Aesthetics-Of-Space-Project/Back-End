@@ -43,20 +43,25 @@ public class GeneralPostService {
      */
     @Transactional
     public GeneralPostDetailResponseDto getPost(String userId, Integer id) {
-        // 복합 키 생성
-        GeneralLikeId generalLikeId = new GeneralLikeId(userId, id);
-        Boolean isLike = generalLikeRepository.existsById(generalLikeId);
-
-        // 복합 키 생성
-        ScrapId scrapId = new ScrapId(userId, id);
-        Boolean isScraped = scrapRepository.existsById(scrapId);
-
         GeneralPostDetailResponseDto generalPostDetailResponseDto = generalPostRepository.findById(id)
                 .map(GeneralPostDetailResponseDto::createDto)
                 .orElseThrow(() -> new IllegalArgumentException("게시물이 존재하지 않습니다."));
 
-        generalPostDetailResponseDto.setIsLiked(isLike);
-        generalPostDetailResponseDto.setIsScraped(isScraped);
+        if (userId == null) {
+            generalPostDetailResponseDto.setIsLiked(false);
+            generalPostDetailResponseDto.setIsScraped(false);
+        } else {
+            // 복합 키 생성
+            GeneralLikeId generalLikeId = new GeneralLikeId(userId, id);
+            Boolean isLike = generalLikeRepository.existsById(generalLikeId);
+
+            // 복합 키 생성
+            ScrapId scrapId = new ScrapId(userId, id);
+            Boolean isScraped = scrapRepository.existsById(scrapId);
+
+            generalPostDetailResponseDto.setIsLiked(isLike);
+            generalPostDetailResponseDto.setIsScraped(isScraped);
+        }
 
         return generalPostDetailResponseDto;
     }
