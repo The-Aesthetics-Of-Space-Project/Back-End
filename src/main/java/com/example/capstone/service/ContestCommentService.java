@@ -35,7 +35,7 @@ public class ContestCommentService {
     private ContestPostRepository contestPostRepository;
 
     /**
-     * 일반 게시판 댓글 등록
+     * 공모전 게시판 댓글 등록
      */
     @Transactional
     public void createContestComment(ContestCommentCreateRequestDto contestCommentCreateRequestDto) {
@@ -49,7 +49,7 @@ public class ContestCommentService {
     }
 
     /**
-     * 일반 게시판 댓글 삭제
+     * 공모전 게시판 댓글 삭제
      */
     @Transactional
     public void deleteContestComment(Integer id) {
@@ -60,7 +60,7 @@ public class ContestCommentService {
     }
 
     /**
-     * 일반 게시판 댓글 조회
+     * 공모전 게시판 댓글 조회
      */
     @Transactional
     public ContestCommentResponseDto getContestComment(Integer id) {
@@ -70,7 +70,7 @@ public class ContestCommentService {
     }
 
     /**
-     * 일반 게시판 댓글 수정
+     * 공모전 게시판 댓글 수정
      */
     @Transactional
     public void updateContestComment(Integer id, ContestCommentUpdateRequestDto contestCommentUpdateRequestDto) {
@@ -81,7 +81,7 @@ public class ContestCommentService {
 
 
     /**
-     * 일반 게시판 댓글 전체 목록 조회
+     * 공모전 게시판 댓글 전체 목록 조회
      */
     @Transactional
     public List<ContestCommentResponseDto> getContestComments(Integer id) {

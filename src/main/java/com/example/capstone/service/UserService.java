@@ -61,15 +61,7 @@ public class UserService {
 
 
 
-    /**
-     * 회원 정보 수정
-     */
 
-    public UserUpDetailsResponseDto userDetail(String userId){
-
-        return UserUpDetailsResponseDto
-                .createDto(userRepository.findByUserId(userId).get());
-    }
     @Transactional
     public void updateUserDetails(String email, UserDetailsUpdateRequestDto userDetailsUpdateRequestDto) throws IOException {
 
@@ -87,16 +79,6 @@ public class UserService {
         }
     }
 
-
-
-
-    /**
-     * 닉네임 중복 확인
-     */
-    @Transactional
-    public boolean checkNickname(String nickname) {
-        return userRepository.findByNickname(nickname).isEmpty();
-    }
 
     /**
      * 비밀번호 변경전 확인

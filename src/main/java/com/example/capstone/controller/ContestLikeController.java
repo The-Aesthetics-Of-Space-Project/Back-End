@@ -25,6 +25,8 @@ public class ContestLikeController {
     /**
      * 공모전 게시글 좋아요 등록
      */
+    @Tag(name = "ContestLike Controller : 공모전 게시판 좋아요", description = "Contest Like Controller")
+    @Operation(summary = "좋아요 등록", description = "사용자가 좋아요를 등록할 때 사용하는 API")
     @PostMapping("/like")
     public ResponseEntity<String> likePost(@RequestBody ContestLikeRequestDto contestLikeRequestDto) {
         contestLikeService.likeContestPost(contestLikeRequestDto);

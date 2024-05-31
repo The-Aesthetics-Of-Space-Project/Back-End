@@ -89,8 +89,6 @@ public class ContestPostService {
             Files.createDirectories(root);
         }
 
-
-
         User user = userRepository.findByNickname(contestPostCreateRequestDto.getNickname())
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
 
@@ -126,18 +124,16 @@ public class ContestPostService {
     @Transactional
     public void updateContestPost(Integer id, ContestPostUpdateRequestDto contestPostUpdateRequestDto)throws IOException{
 
-            ContestPost contestPost = contestPostRepository.findById(id)
-                    .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."))
-                    .updateContestPost(contestPostUpdateRequestDto);
+        ContestPost contestPost = contestPostRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("게시물이 존재하지 않습니다."))
+                .updateContestPost(contestPostUpdateRequestDto);
 
-//            contestPost.updateContestPost(contestPostUpdateRequestDto);
-
-            if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
-                File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
-                contestPostUpdateRequestDto
-                        .getThumbnail()
-                        .transferTo(saveFile);
-            }
+        if( contestPostUpdateRequestDto.getThumbnail()!=null ) {
+            File saveFile = new File(root.toString()+"/"+contestPost.getArticleId() +".jpg");
+            contestPostUpdateRequestDto
+                    .getThumbnail()
+                    .transferTo(saveFile);
+        }
     }
 
 
