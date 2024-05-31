@@ -22,7 +22,7 @@ public class ContestLikeService {
     private final UserRepository userRepository;
 
     /**
-     * 일반 게시판 좋아요 등록
+     * 공모전 게시글 좋아요 등록
      */
     @Transactional
     public void likeContestPost(ContestLikeRequestDto contestLikeRequestDto) {
@@ -36,7 +36,7 @@ public class ContestLikeService {
     }
 
     /**
-     * 일반 게시판 좋아요 취소
+     * 공모전 게시글 좋아요 취소
      */
     @Transactional
     public void unlikeContestPost(ContestLikeRequestDto contestLikeRequestDto) {
