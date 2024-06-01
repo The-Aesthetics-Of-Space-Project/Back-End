@@ -8,4 +8,6 @@ import java.util.List;
 @Repository
 public interface GeneralCommentRepository extends JpaRepository<GeneralComment, Integer> {
     List<GeneralComment> findByGeneralPostArticleIdOrderByCommentIdDesc(Integer id);
+
+    List<GeneralComment> findByParentId(Integer parentId);
 }

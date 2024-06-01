@@ -43,6 +43,15 @@ public class GeneralCommentService {
         generalCommentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("댓글이 존재하지 않습니다."));
 
+        // 대댓글 조회
+        List<GeneralComment> childComments = generalCommentRepository.findByParentId(id);
+
+        // 대댓글 삭제
+        for(GeneralComment childComment : childComments) {
+            generalCommentRepository.deleteById(childComment.getCommentId());
+        }
+
+        // 원댓글 삭제
         generalCommentRepository.deleteById(id);
     }
 
