@@ -9,6 +9,7 @@ import com.example.capstone.entity.follow.Follow;
 import com.example.capstone.entity.follow.FollowId;
 import com.example.capstone.entity.user.User;
 import com.example.capstone.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,6 @@ public class MypageService {
         //팔로우 당한사람
         User followed = userRepository.findByUserId(followId)
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
-
 
         //팔로우 생성중
         //new FollowId(팔로우 당한사람, 팔로우 한사람)
@@ -191,8 +191,13 @@ public class MypageService {
      * 언팔로우
      */
     public void deleteUserFollowing(String userId, String follow){
+        userRepository.findByUserId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
+        userRepository.findByUserId(follow)
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
         //followId(userID-팔로우 당한사람, follower-팔로우한사람)
         FollowId followId = new FollowId(follow,userId);
+        followRepository.findById(followId).orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
         followRepository.deleteById(followId);
     }
 
@@ -201,8 +206,14 @@ public class MypageService {
      */
 
     public void deleteUserFollower(String userId,String follower){
+
+        userRepository.findByUserId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
+        userRepository.findByUserId(follower)
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
         //followId(userID-팔로우 당한사람, follower-팔로우한사람)
         FollowId followId = new FollowId(userId,follower);
+        followRepository.findById(followId).orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다."));
         followRepository.deleteById(followId);
     }
 

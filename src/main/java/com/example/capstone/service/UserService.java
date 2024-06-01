@@ -30,17 +30,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private FollowRepository followRepository;
-
-    @Autowired
-    private GeneralPostRepository generalPostRepository;
-
-    @Autowired
-    private GeneralLikeRepository generalLikeRepository;
-
-    @Autowired
-    private ScrapRepository scrapRepository;
 
 
     /**
@@ -48,11 +37,6 @@ public class UserService {
      */
     @Transactional
     public UserDetailsResponseDto getUserDetails(String nick) {
-
-//        String nickname = userRepository
-//                .findByNickname(nick)
-//                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."))
-//                .getNickname();
 
         return UserDetailsResponseDto.createDto(
                 userRepository.findByNickname(nick).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다.")));
@@ -77,27 +61,6 @@ public class UserService {
                     .getProfile()
                     .transferTo(saveFile);
         }
-    }
-
-
-    /**
-     * 비밀번호 변경전 확인
-     */
-    @Transactional
-    public boolean checkPass(String userId, String password) {
-        return userRepository.findByUserId(userId)
-                .get()
-                .getPassword().equals(password);
-    }
-
-    /**
-     * 비밀번호 변경
-     */
-    @Transactional
-    public void updateUserPass(String userId, String password) {
-        userRepository.findByUserId(userId)
-                .get()
-                .updatePassword(password);
     }
 
 
